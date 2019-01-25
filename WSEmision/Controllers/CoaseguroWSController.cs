@@ -1,43 +1,37 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Hosting;
+using System.Net.Http.Headers;
 
 namespace WSEmision.Controllers
 {
-    public class Ejemplo
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-    }
-
     public class CoaseguroWSController : ApiController
     {
-        Ejemplo[] ejemplos = new[] {
-            new Ejemplo { Id = 1, Nombre = "Uno" },
-            new Ejemplo { Id = 2, Nombre = "Dos" },
-            new Ejemplo { Id = 3, Nombre = "Tres" },
-            new Ejemplo { Id = 4, Nombre = "Cuatro" }
-        };
-
+        /// <summary>
+        /// Regresa el PDF con la Cédula de Participación y el
+        /// Anexo de Condiciones Particulares del la póliza con el
+        /// Id indicado.
+        /// </summary>
+        /// <param name="idPv">El Id de la póliza de coaseguro a buscar.</param>
+        /// <returns>Una respuesta HTTP con el contenido binario del PDF de
+        /// los documentos especificados.</returns>
         [HttpGet]
-        public IEnumerable<Ejemplo> ObtenerEjemplos()
+        [ActionName("descargarCedulaYAnexo")]
+        public HttpResponseMessage DescargarCedulaParticipacionAnexoCondiciones(int idPv)
         {
-            return ejemplos;
-        }
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            var rutaPdf = HostingEnvironment.MapPath("~/Plantillas/EjemploCoaseguro.pdf");
 
-        [HttpGet]
-        public IHttpActionResult ObtenerEjemplo(int id)
-        {
-            var ejemplo = ejemplos.FirstOrDefault(ej => ej.Id == id);
+            response.Content = new StreamContent(new FileStream(rutaPdf, FileMode.Open));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = "CedulaAnexo_" + idPv };
 
-            if (ejemplo == null) {
-                return NotFound();
-            }
-
-            return Ok(ejemplo);
+            return response;
         }
     }
 }
