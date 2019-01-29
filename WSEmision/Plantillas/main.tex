@@ -4,8 +4,9 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{fontspec}
 \usepackage{longtable}
-\usepackage{tabu}
-\usepackage{colortbl}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{multirow}
@@ -36,20 +37,20 @@
 \rfoot{}
 \rhead{
     \begin{center}
-        \begin{tabu} to \textwidth{X[l]l}
-            \multirow{5}{5cm}{\includegraphics[height=2.5cm]{LogoGMX.jpg}} & \footnotesize\textbf{Grupo Mexicano de Seguros, S.A. de C.V.}\\
-             & \footnotesize Tecoyotitla 412 Edificio GMX\\
-             & \footnotesize Col. Ex Hacienda de Guadalupe Chimalistac\\
-             & \footnotesize México, D.F. 01050\\
-             & \footnotesize Tel. (55) 5480 4000\\\\
-        \end{tabu}
-        \begin{tabu} to \textwidth{{|>{\columncolor[gray]{0.8}}}X[C]|}
+        \begin{tabularx}{\textwidth}{X>{\footnotesize}l}
+            \multirow{5}{5cm}{\includegraphics[height=2.5cm]{LogoGMX.jpg}} & \textbf{Grupo Mexicano de Seguros, S.A. de C.V.}\\
+             & Tecoyotitla 412 Edificio GMX\\
+             & Col. Ex Hacienda de Guadalupe Chimalistac\\
+             & México, D.F. 01050\\
+             & Tel. (55) 5480 4000\\\\
+        \end{tabularx}
+        \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
             \hline
             <POL\_ENDO> <TIPO\_POLIZA>\\
             <DESC\_RAMO\_COMERCIAL>\\
             IDENTIFICADOR DE PÓLIZA: <SUC>-<COD\_RAMO>-<POLIZA>-<SEC>-<SUF>\\
             \hline
-        \end{tabu}
+        \end{tabularx}
     \end{center}
 }
 \rfoot{\thepage}
@@ -67,7 +68,7 @@
 Por medio de la presente cédula, se hace constar que las coberturas, ramos y/o secciones contratadas al amparo de la Póliza de Seguros antes mencionadas, se encuentran en coaseguro con las siguientes Compañías de Seguros (en adelante ``las coaseguradoras'') y en los porcentajes de participación, que a continuación se detallan para cada sección, ramo y/o cobertura.
 
 \begin{center}
-    \begin{tabu} to \textwidth{|X[l]|c|c|r|}
+    \begin{tabularx}{\textwidth}{|X|c|c|r|}
         \hline
         \textbf{Compañía Coaseguradora} & \textbf{Tipo Coasegurador} & \textbf{Participación} & \textbf{Monto de Participación}\\\hline
         Grupo Mexicano de Seguros, S.A. de C.V. & Líder & 70\% & \$ 0.00\\\hline
@@ -75,7 +76,7 @@ Por medio de la presente cédula, se hace constar que las coberturas, ramos y/o 
         Axa Seguros, S.A. de C.V. & Seguidor & 5\% & \$ 0.00\\\hline
         Ace Seguros, S.A. de C.V. & Seguidor & 5\% & \$ 0.00\\
         \hline
-    \end{tabu}
+    \end{tabularx}
 \end{center}
 
 Las coaseguradoras manifiestan su conformidad y acuerdan con el asegurado lo siguiente:
@@ -107,7 +108,7 @@ La vigencia de la presente cédula es la misma que la vigencia de la presente p�
 Como constancia de conformidad con lo anterior, se firma la presente cédula por las compañías participantes el día \textbf{\underline{22}} de \textbf{\underline{Mayo}} de \textbf{\underline{2017}}.\\
 
 \begin{center}
-    \begin{tabu} to \textwidth{X[l]r}
+    \begin{tabularx}{\textwidth}{Xr}
         \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
         \textbf{SEGUROS ATLAS, S.A. DE C.V.} &\\
@@ -116,7 +117,7 @@ Como constancia de conformidad con lo anterior, se firma la presente cédula por
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
         \textbf{ACE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}
-    \end{tabu}
+    \end{tabularx}
 \end{center}
 \newpage
 
@@ -139,7 +140,7 @@ En adición a los contratos firmados entre las compañías COASEGURADORAS partic
 Las COASEGURADORAS acuerdan que la distribución de la participación en el riesgo por sección/ramo es el siguiente:
 
 \begin{center}
-    \begin{tabu} to \textwidth{|X[l]|c|c|c|}
+    \begin{tabularx}{\textwidth}{|X|c|c|c|}
         \hline
         \textbf{Ramo} & \textbf{Coaseguradora} & \textbf{\% Participación} & \textbf{Tipo}\\\hline
         Incendio & Grupo Mexicano de Seguros, S.A. de C.V. & 70\% & Líder\\\hline
@@ -147,7 +148,7 @@ Las COASEGURADORAS acuerdan que la distribución de la participación en el ries
         Incendio & Axa Seguros, S.A. de C.V. & 5\% & Seguidor\\\hline
         Incendio & Ace Seguros, S.A. de C.V. & 5\% & Seguidor\\
         \hline
-    \end{tabu}
+    \end{tabularx}
 \end{center}
 
 \textbf{MONEDA DE LA PÓLIZA}
@@ -214,9 +215,9 @@ Las COASEGURADORAS acuerdan que los ajustes de los siniestros se lleven a cabo a
 El presente anexo se firma en la \underline{\textbf{Ciudad de México}} el día \underline{\textbf{15}} de \underline{\textbf{Enero}} de \underline{\textbf{2017}}.\\
 
 \begin{center}
-    \textbf{LAS COASEGURADORAS}\\.
+    \textbf{LAS COASEGURADORAS}\\\vspace{2cm}
     
-    \begin{tabu} to \textwidth{X[l]r}
+    \begin{tabularx}{\textwidth}{Xr}
         \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
         \textbf{SEGUROS ATLAS, S.A. DE C.V.} &\\
@@ -225,7 +226,7 @@ El presente anexo se firma en la \underline{\textbf{Ciudad de México}} el día 
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
         \textbf{ACE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}
-    \end{tabu}
+    \end{tabularx}
 \end{center}
 	
 \end{document}
