@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Hosting;
 using System.Net.Http.Headers;
+using WSEmision.Models.Business.Service.Coaseguro;
 
 namespace WSEmision.Controllers
 {
@@ -25,7 +26,10 @@ namespace WSEmision.Controllers
         public HttpResponseMessage DescargarCedulaParticipacionAnexoCondiciones(int idPv)
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            var rutaPdf = HostingEnvironment.MapPath("~/Plantillas/EjemploCoaseguro.pdf");
+            var rutaPdf = HostingEnvironment.MapPath("~/Plantillas/Coaseguro/EjemploCoaseguro.pdf");
+            var rutaPlantilla = HostingEnvironment.MapPath("~/Plantillas/Coaseguro/CedulaParticipacionAnexoCondiciones.tex");
+            var pdf = CoaseguroService.GenerarCedulaParticipacionAnexoCondiciones(idPv, rutaPlantilla);
+
 
             response.Content = new StreamContent(new FileStream(rutaPdf, FileMode.Open));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
