@@ -63,7 +63,7 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
         /// <summary>
         /// La fecha de vigencia de la póliza líder.
         /// </summary>
-        public DateTime FechaVigencia { get; set; }
+        public DateTime? FechaVigencia { get; set; }
     }
 
     /// <summary>
@@ -118,6 +118,16 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
     /// </summary>
     public class DatosEspecificosAnexoRS
     {
+        /// <summary>
+        /// La fecha de emisión de la póliza.
+        /// </summary>
+        public DateTime FechaEmision { get; set; }
+
+        /// <summary>
+        /// La sucursal donde se emitió la póliza.
+        /// </summary>
+        public string Sucursal { get; set; }
+
         /// <summary>
         /// El tipo de moneda de la póliza.
         /// </summary>

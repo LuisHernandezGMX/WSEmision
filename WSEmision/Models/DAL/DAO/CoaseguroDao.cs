@@ -81,10 +81,15 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
                     db.Database.Connection.Open();
                     var reader = cmd.ExecuteReader();
                     var context = (db as IObjectContextAdapter).ObjectContext;
-                    
+
                     rs.DatosGenerales = context
                         .Translate<DatosGeneralesAnexoRS>(reader)
                         .FirstOrDefault() ?? new DatosGeneralesAnexoRS();
+
+                    // *** Posibles efectos secundarios
+                    // Translate<T>() por alguna razón no obtiene el campo 'Vigencia' del DbDataReader.
+                    // Por lo tanto, se obtiene el valor manualmente y se asigna al result set.
+                    rs.DatosGenerales.FechaVigencia = reader["Vigencia"] as System.DateTime?;
 
                     reader.NextResult();
                     rs.GMX = context

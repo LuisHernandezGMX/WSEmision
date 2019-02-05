@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.IO;
+
 using WSEmision.Models.DAL.DAO.Coaseguro;
+using WSEmision.Models.Business.IO.Coaseguro;
 
 namespace WSEmision.Models.Business.Service.Coaseguro
 {
@@ -11,6 +11,23 @@ namespace WSEmision.Models.Business.Service.Coaseguro
     /// </summary>
     public class CoaseguroService
     {
+        #region Variables Privadas
+        /// <summary>
+        /// La ruta absoluta al directorio con las plantillas y ejecutables de LaTex (distribución MikTex).
+        /// </summary>
+        private static string rutaLatex = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), "Latex");
+
+        /// <summary>
+        /// La ruta absoluta al compilador de LaTex.
+        /// </summary>
+        private static string rutaEjecutable = Path.Combine(rutaLatex, @"MikTex\texmfs\install\miktex\bin\miktex-xelatex.exe");
+
+        /// <summary>
+        /// La ruta absoluta al directorio de multimedia.
+        /// </summary>
+        private static string inputDir = Path.Combine(rutaLatex, "media");
+        #endregion Variables Privadas
+
         /// <summary>
         /// Genera el reporte en PDF de la Cédula de Participación y el Anexo de
         /// Condiciones del Coaseguro indicado.
@@ -23,16 +40,15 @@ namespace WSEmision.Models.Business.Service.Coaseguro
             var datosCedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
             var datosAnexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
 
-            // TODO:
-            
-            // 2) Leer plantilla 
-            // 3) Reemplazar valores en plantilla
-            // 4) Escribir archivo de LaTex
-            // 5) Compilar archivo
-            // 6) Leer PDF resultante
-            // 7) Regresar PDF como vector de bytes
+            var outputDir = Path.Combine(rutaLatex, Guid.NewGuid().ToString());
+            var latexIO = new CedulaAnexoLectorEscritor(datosCedula, datosAnexo, rutaEjecutable, inputDir);
+            var plantilla = latexIO.LeerPlantilla(rutaPlantilla);
 
-            return new byte[] { };
+            latexIO.GenerarReporte(plantilla, outputDir);
+            var pdf = latexIO.LeerReporte(outputDir);
+            Directory.Delete(outputDir, true);
+
+            return pdf;
         }
     }
 }

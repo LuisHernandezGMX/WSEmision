@@ -13,6 +13,8 @@
 \usepackage{enumitem,amssymb}
 \usepackage{tikzpagenodes}
 \usepackage{eso-pic}
+\usepackage{soul}
+\usepackage{amssymb}
 \usepackage[letterpaper,top=1.8cm,bottom=7cm,left=1cm,right=1cm,marginparwidth=1.75cm]{geometry}
 
 % Margen de páginas
@@ -46,9 +48,9 @@
         \end{tabularx}
         \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
             \hline
-            <POL\_ENDO> <TIPO\_POLIZA>\\
-            <DESC\_RAMO\_COMERCIAL>\\
-            IDENTIFICADOR DE PÓLIZA: <SUC>-<COD\_RAMO>-<POLIZA>-<SEC>-<SUF>\\
+            <POL-ENDO> <TIPO-POLIZA>\\
+            <DESC-RAMO-COMERCIAL>\\
+            IDENTIFICADOR DE PÓLIZA: <SUC-COD-RAMO-POLIZA-ENDO-SUF>\\
             \hline
         \end{tabularx}
     \end{center}
@@ -63,7 +65,7 @@
     \textbf{CÉDULA DE PARTICIPACIÓN EN COASEGURO}
 \end{center}
 
-\textbf{Queda entendido y convenido que la presente cédula se adhiere y forma parte de la Póliza de Seguros número 01-01-07000000-01-000 emitida a nombre de LA INDEPENDIENTE, S.A. DE C.V. a quien en lo sucesivo se identificará como ``el asegurado/contratante''.}\\
+\textbf{Queda entendido y convenido que la presente cédula se adhiere y forma parte de la Póliza de Seguros número <SUC-COD-RAMO-POLIZA-ENDO-SUF> emitida a nombre de <ASEGURADO> a quien en lo sucesivo se identificará como ``el asegurado/contratante''.}\\
 
 Por medio de la presente cédula, se hace constar que las coberturas, ramos y/o secciones contratadas al amparo de la Póliza de Seguros antes mencionadas, se encuentran en coaseguro con las siguientes Compañías de Seguros (en adelante ``las coaseguradoras'') y en los porcentajes de participación, que a continuación se detallan para cada sección, ramo y/o cobertura.
 
@@ -71,11 +73,7 @@ Por medio de la presente cédula, se hace constar que las coberturas, ramos y/o 
     \begin{tabularx}{\textwidth}{|X|c|c|r|}
         \hline
         \textbf{Compañía Coaseguradora} & \textbf{Tipo Coasegurador} & \textbf{Participación} & \textbf{Monto de Participación}\\\hline
-        Grupo Mexicano de Seguros, S.A. de C.V. & Líder & 70\% & \$ 0.00\\\hline
-        Seguros Atlas, S.A. de C.V. & Seguidor & 20\% & \$ 0.00\\\hline
-        Axa Seguros, S.A. de C.V. & Seguidor & 5\% & \$ 0.00\\\hline
-        Ace Seguros, S.A. de C.V. & Seguidor & 5\% & \$ 0.00\\
-        \hline
+        <CEDULA-TABLA-COASEGURADORAS>
     \end{tabularx}
 \end{center}
 
@@ -105,18 +103,13 @@ La Coaseguradora Líder emitirá la cancelación de esta Póliza de Seguro con e
 
 La vigencia de la presente cédula es la misma que la vigencia de la presente póliza.\\
 
-Como constancia de conformidad con lo anterior, se firma la presente cédula por las compañías participantes el día \textbf{\underline{22}} de \textbf{\underline{Mayo}} de \textbf{\underline{2017}}.\\
+Como constancia de conformidad con lo anterior, se firma la presente cédula por las compañías participantes el día \textbf{\underline{<CEDULA-DIA>}} de \textbf{\underline{<CEDULA-MES>}} de \textbf{\underline{<CEDULA-ANIO>}}.\\
 
 \begin{center}
     \begin{tabularx}{\textwidth}{Xr}
         \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{SEGUROS ATLAS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{AXA SEGUROS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{ACE SEGUROS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}
+        <TABLA-FIRMAS>
     \end{tabularx}
 \end{center}
 \newpage
@@ -128,75 +121,54 @@ Como constancia de conformidad con lo anterior, se firma la presente cédula por
 
 En adición a los contratos firmados entre las compañías COASEGURADORAS participantes y de la cédula de coaseguro firmada y que se incluye en la póliza correspondiente a cada negocio, se acuerdan las siguientes condiciones particulares del coaseguro.\\
 
-\textbf{DATOS GENERALES}\\\\
-\textbf{Datos del Contratante}: \underline{\hspace{5cm}}\\
-\textbf{RFC}: \underline{\hspace{5cm}}\\
-\textbf{Domicilio Fiscal}: \underline{\hspace{5cm}}\\
-\textbf{Giro o Actividad}: \underline{\hspace{5cm}}\\
-\textbf{No. de Póliza (Coasegurador Líder)}: \underline{\hspace{5cm}}\\
-\textbf{Vigencia}: \underline{\hspace{5cm}}\\
 
-\textbf{PARTICIPACIÓN EN COASEGURO}\\\\
+\textbf{DATOS GENERALES}\\\\
+\textbf{Datos del Contratante}: \underline{<ASEGURADO>}\\
+\textbf{RFC}: \underline{<RFC>}\\
+\textbf{Domicilio Fiscal}: \ul{<DOMICILIO-FISCAL>}\\
+\textbf{Giro o Actividad}: \ul{<GIRO>}\\
+\textbf{No. de Póliza (Coasegurador Líder)}: \underline{<NO-POLIZA>}\\
+\textbf{Vigencia}: \underline{<VIGENCIA>}\\
+
+\textbf{PARTICIPACIÓN EN COASEGURO}\\
+
 Las COASEGURADORAS acuerdan que la distribución de la participación en el riesgo por sección/ramo es el siguiente:
 
 \begin{center}
     \begin{tabularx}{\textwidth}{|X|c|c|c|}
         \hline
         \textbf{Ramo} & \textbf{Coaseguradora} & \textbf{\% Participación} & \textbf{Tipo}\\\hline
-        Incendio & Grupo Mexicano de Seguros, S.A. de C.V. & 70\% & Líder\\\hline
-        Incendio & Seguros Atlas, S.A. de C.V. & 20\% & Seguidor\\\hline
-        Incendio & Axa Seguros, S.A. de C.V. & 5\% & Seguidor\\\hline
-        Incendio & Ace Seguros, S.A. de C.V. & 5\% & Seguidor\\
-        \hline
+        <TABLA-ANEXO-PARTICIPACION-COASEGURADORAS>
     \end{tabularx}
 \end{center}
 
-\textbf{MONEDA DE LA PÓLIZA}
+\textbf{MONEDA DE LA PÓLIZA}\\
 
-\begin{todolist}
-    \item Pesos Mexicanos (MXP)
-    \item Dólares (USD)
-\end{todolist}
+<MONEDA>
 
-\textbf{FORMA DE PAGO DEL ASEGURADO}
+\textbf{FORMA DE PAGO DEL ASEGURADO}\\
 
-\begin{todolist}
-    \item Anual
-    \item Contrato
-    \item Semestral
-    \item Trimestral
-    \item Mensual
-\end{todolist}
+<FORMA-PAGO-ASEGURADO>
 
-\textbf{PERÍODO DE GRACIA PARA EL PAGO DE LA PRIMA POR PARTE DEL ASEGURADO}
+\textbf{PERÍODO DE GRACIA PARA EL PAGO DE LA PRIMA POR PARTE DEL ASEGURADO}\\
 
-\begin{todolist}
-    \item De acuerdo a la Ley Sobre el Contrato de Seguro
-    \item Otro (especificar): \underline{\hspace{5cm}}
-\end{todolist}
+<GARANTIA-PAGO>
+
 \newpage
 
-\textbf{MÉTODO DE PAGO DE PRIMAS ENTRE COMPAÑÍAS COASEGURADORAS}
+\textbf{MÉTODO DE PAGO DE PRIMAS ENTRE COMPAÑÍAS COASEGURADORAS}\\
 
-\begin{todolist}
-    \item Estado de Cuenta
-    \item Otra (especificar:) \underline{\hspace{5cm}}
-\end{todolist}
+<METODO-PAGO>
 
-\textbf{PAGO DE COMISIONES AL AGENTE}
+\textbf{PAGO DE COMISIONES AL AGENTE}\\
 
-\begin{todolist}
-    \item La COASEGURADORA LÍDER paga el 100\%
-    \item Cada COASEGURADORA paga su participación
-\end{todolist}
+<PAGO-COMISION-AGENTE>
 
-El pago de comisiones incluye los siguientes conceptos:
+El pago de comisiones incluye los siguientes conceptos:\\
 
-\begin{todolist}
-    \item Prima Neta
-    \item Recargos por pago fraccionado
-    \item Sobre comisión
-\end{todolist}
+$\Box$ Prima Neta\\
+\indent $\Box$ Recargos por pago fraccionado\\
+\indent $\Box$ Sobre comisión\\
 
 \textbf{COMISIÓN POR ADMINISTRACIÓN DE COASEGURO}\\
 
@@ -204,28 +176,21 @@ La comisión por administración para la COASEGURADORA LÍDER será de \underlin
 
 \textbf{SINIESTROS E INDEMNIZACIONES}\\
 
-Las COASEGURADORAS acuerdan que los ajustes de los siniestros se lleven a cabo a través del panel de ajustadores de la COASEGURADORA LÍDER, asimismo, las indemnizaciones que corresponda a los siniestros proccedentes, será realizado por la COASEGURADORA LÍDER sin la previa autorización de las COASEGURADORAS SEGUIDORAS dentro de los límites siguientes:
+Las COASEGURADORAS acuerdan que los ajustes de los siniestros se lleven a cabo a través del panel de ajustadores de la COASEGURADORA LÍDER, asimismo, las indemnizaciones que corresponda a los siniestros proccedentes, será realizado por la COASEGURADORA LÍDER sin la previa autorización de las COASEGURADORAS SEGUIDORAS dentro de los límites siguientes:\\
 
-\begin{todolist}
-    \item Hasta el \underline{\hspace{1cm}}\% del límite de responsabilidad.
-    \item Hasta un límite máximo de \$\underline{\hspace{2cm}}
-\end{todolist}
+<PAGO-SINIESTRO>
+
 \newpage
 
-El presente anexo se firma en la \underline{\textbf{Ciudad de México}} el día \underline{\textbf{15}} de \underline{\textbf{Enero}} de \underline{\textbf{2017}}.\\
+El presente anexo se firma en \underline{\textbf{<ANEXO-SUCURSAL>}} el día \underline{\textbf{<ANEXO-DIA>}} de \underline{\textbf{<ANEXO-MES>}} de \underline{\textbf{<ANEXO-ANIO>}}.\\
 
 \begin{center}
-    \textbf{LAS COASEGURADORAS}\\\vspace{2cm}
+    \textbf{LAS COASEGURADORAS}\\\vspace{1cm}
     
     \begin{tabularx}{\textwidth}{Xr}
         \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
         Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{SEGUROS ATLAS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{AXA SEGUROS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
-        \textbf{ACE SEGUROS, S.A. DE C.V.} &\\
-        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}
+        <TABLA-FIRMAS>
     \end{tabularx}
 \end{center}
 	

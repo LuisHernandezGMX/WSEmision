@@ -200,6 +200,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Business\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Models\Business\IO\Coaseguro\CedulaAnexoLectorEscritor.cs" />
+    <Compile Include="Models\Business\IO\IEscritorReporte.cs" />
+    <Compile Include="Models\Business\IO\ILectorReporte.cs" />
+    <Compile Include="Models\Business\IO\LatexLectorEscritor.cs" />
     <Compile Include="Models\Business\Service\Coaseguro\CoaseguroService.cs" />
     <Compile Include="Models\DAL\DAO\CoaseguroDao.cs" />
     <Compile Include="Models\DAL\DTO\Coaseguro\AnexoCondicionesParticularesCoaseguro.cs" />
