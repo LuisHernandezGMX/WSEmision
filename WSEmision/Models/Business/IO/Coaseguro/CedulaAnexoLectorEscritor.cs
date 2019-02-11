@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Collections.Generic;
 using System.Text;
 
 using WSEmision.Models.DAL.DTO.Coaseguro;
@@ -55,13 +55,13 @@ namespace WSEmision.Models.Business.IO.Coaseguro
             var polizaCompuesta = cedula.DatosGenerales.Poliza.Split('-');
 
             // Header
-            indice = plantilla.FindIndex(linea => linea.Contains("<POL-ENDO>"));
+            indice = plantilla.FindIndex(linea => linea.Contains("<TIPO-ENDO>"));
             plantilla[indice] = plantilla[indice]
-                .Replace("<POL-ENDO>", polizaCompuesta[3])
-                .Replace("<TIPO-POL>", "Tipo de Póliza PLACEHOLDER");
+                .Replace("<TIPO-ENDO>", cedula.DatosGenerales.TipoEndoso)
+                .Replace("<TIPO-POLIZA>", cedula.DatosGenerales.TipoPoliza);
 
             indice = plantilla.FindIndex(linea => linea.Contains("<DESC-RAMO-COMERCIAL>"), indice);
-            plantilla[indice] = plantilla[indice].Replace("<DESC-RAMO-COMERCIAL>", "Ramo Comercial PLACEHOLDER");
+            plantilla[indice] = plantilla[indice].Replace("<DESC-RAMO-COMERCIAL>", cedula.DatosGenerales.RamoComercial);
 
             indice = plantilla.FindIndex(linea => linea.Contains("<SUC-COD-RAMO-POLIZA-ENDO-SUF>"), indice);
             plantilla[indice] = plantilla[indice]

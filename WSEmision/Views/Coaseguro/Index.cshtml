@@ -1,0 +1,84 @@
+﻿@model WSEmision.Models.DAL.ViewModels.Coaseguro.ConsultarPolizaViewModel
+@{
+    ViewBag.Title = "Coaseguro";
+
+    string validSucursal = IsPost ? (ViewData.ModelState.IsValidField("CodSucursal") ? "has-success" : "has-error") : string.Empty;
+    string validRamo = IsPost ? (ViewData.ModelState.IsValidField("CodRamo") ? "has-success" : "has-error") : string.Empty;
+    string validPoliza = IsPost ? (ViewData.ModelState.IsValidField("NroPoliza") ? "has-success" : "has-error") : string.Empty;
+    string validSufijo = IsPost ? (ViewData.ModelState.IsValidField("Sufijo") ? "has-success" : "has-error") : string.Empty;
+    string validEndoso = IsPost ? (ViewData.ModelState.IsValidField("Endoso") ? "has-success" : "has-error") : string.Empty;
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>
+            <span class="fas fa-people-carry"></span>
+            Coaseguro
+        </h1>
+        <p>Por favor, ingrese los datos de la póliza en Coaseguro.</p>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Datos de la Póliza
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("ConsultarPoliza", "Coaseguro", FormMethod.Post)) {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.ValidationMessage("ValidacionGeneral", new { @class = "text-danger" }, "strong")
+                    </div>
+                    <div class="form-group @validSucursal">
+                        @Html.LabelFor(model => model.CodSucursal, new { @class = "control-label" })
+                        @Html.DropDownList("CodSucursal", ViewBag.CodSucursal as IEnumerable<SelectListItem>, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.CodSucursal, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group @validRamo">
+                        @Html.LabelFor(model => model.CodRamo, new { @class = "control-label" })
+                        @Html.DropDownList("CodRamo", ViewBag.CodRamo as IEnumerable<SelectListItem>, new { @class = "form-control input-sm" })
+                        @Html.ValidationMessageFor(model => model.CodRamo, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group @validPoliza">
+                        @Html.LabelFor(model => model.NroPoliza, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.NroPoliza, new { @class = "form-control input-sm", autofocus = "" })
+                        @Html.ValidationMessageFor(model => model.NroPoliza, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group @validEndoso">
+                        @Html.LabelFor(model => model.Endoso, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Endoso, new { @class = "form-control input-sm", autofocus = "" })
+                        @Html.ValidationMessageFor(model => model.Endoso, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group @validSufijo">
+                        @Html.LabelFor(model => model.Sufijo, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Sufijo, new { @class = "form-control input-sm", autofocus = "" })
+                        @Html.ValidationMessageFor(model => model.Sufijo, null, new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span class="fas fa-search"></span>
+                        Consultar
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .panel-body {
+            font-size: 8pt;
+        }
+
+        .form-control {
+            font-size: 8pt;
+        }
+
+        .btn-primary {
+            font-size: 10pt;
+        }
+    </style>
+}

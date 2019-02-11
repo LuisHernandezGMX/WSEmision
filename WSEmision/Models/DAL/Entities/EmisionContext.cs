@@ -11,6 +11,10 @@ namespace WSEmision.Models.DAL.Entities
     /// </summary>
     public partial class EmisionContext : DbContext
     {
+        public virtual DbSet<pv_header> pv_header { get; set; }
+        public virtual DbSet<tramo> tramo { get; set; }
+        public virtual DbSet<tsuc> tsuc { get; set; }
+
         /// <summary>
         /// Genera una nueva conexión a la base de datos en el
         /// entorno indicado.

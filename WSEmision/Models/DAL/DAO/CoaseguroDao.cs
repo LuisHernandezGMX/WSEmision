@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Infrastructure;
-using WSEmision.Models.DAL.Entities;
+using System.Linq;
+using System.Web.Mvc;
 using WSEmision.Models.DAL.DTO.Coaseguro;
+using WSEmision.Models.DAL.Entities;
+using WSEmision.Models.DAL.ViewModels.Coaseguro;
 
 namespace WSEmision.Models.DAL.DAO.Coaseguro
 {
@@ -11,6 +14,8 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
     /// </summary>
     public class CoaseguroDao
     {
+        private static string entorno = ConfigurationManager.AppSettings["EntornoBD"];
+
         /// <summary>
         /// Ejecuta el procedimiento sp_CedulaParticipacionCoaseguro() y regresa
         /// toda la información de éste.
@@ -21,7 +26,6 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         public static CedulaParticipacionCoaseguroResultSet ObtenerCedulaParticipacion(int idPv)
         {
             var rs = new CedulaParticipacionCoaseguroResultSet();
-            var entorno = ConfigurationManager.AppSettings["EntornoBD"];
 
             using (var db = new EmisionContext(entorno)) {
                 var cmd = db.Database.Connection.CreateCommand();
@@ -66,7 +70,6 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         public static AnexoCondicionesParticularesCoaseguroResultSet ObtenerAnexoCondicionesParticulares(int idPv)
         {
             var rs = new AnexoCondicionesParticularesCoaseguroResultSet();
-            var entorno = ConfigurationManager.AppSettings["EntornoBD"];
 
             using (var db = new EmisionContext(entorno)) {
                 var cmd = db.Database.Connection.CreateCommand();
@@ -114,6 +117,82 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
             }
 
             return rs;
+        }
+
+        /// <summary>
+        /// Regresa una lista de los ramos comerciales (1 - 102) para
+        /// ser incluida en una etiqueta HTML &lt;select&gt;.
+        /// </summary>
+        /// <returns>Una colección de objectos <see cref="SelectListItem"/></returns>
+        public static IEnumerable<SelectListItem> ObtenerRamosComerciales()
+        {
+            using (var db = new EmisionContext(entorno)) {
+                return db.tramo
+                    .Where(ramo => ramo.cod_ramo <= 102M)
+                    .AsEnumerable()
+                    .Select(ramo => new SelectListItem {
+                        Text = $"{ramo.txt_desc} ({ramo.cod_ramo})",
+                        Value = ramo.cod_ramo.ToString()
+                    })
+                    .ToList();
+            }
+        }
+
+        /// <summary>
+        /// Regresa una lista con todas las sucursales de GMX para ser incluida
+        /// en una etiqueta HTML &lt;select&gt;.
+        /// </summary>
+        /// <returns>Una colección de objetos <see cref="SelectListItem"/></returns>
+        public static IEnumerable<SelectListItem> ObtenerSucursales()
+        {
+            using (var db = new EmisionContext(entorno)) {
+                return db.tsuc
+                    .AsEnumerable()
+                    .Select(tsuc => new SelectListItem {
+                        Text = $"{tsuc.txt_nom_suc} ({tsuc.cod_suc})",
+                        Value = tsuc.cod_suc.ToString()
+                    })
+                    .ToList();
+            }
+        }
+
+        /// <summary>
+        /// Indica si existe el registro en la tabla [pv_header] con la
+        /// llave primaria indicada por el Vista Modelo.
+        /// </summary>
+        /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
+        /// <returns>True si el registro existe con esas llaves primarias. De lo contrario, regresa False.</returns>
+        public static bool ExistePolizaCoaseguro(ConsultarPolizaViewModel model)
+        {
+            using (var db = new EmisionContext(entorno)) {
+                return db.pv_header
+                    .Any(header =>
+                        header.cod_suc == model.CodSucursal
+                        && header.cod_ramo == model.CodRamo
+                        && header.nro_pol == model.NroPoliza
+                        && header.aaaa_endoso == model.Sufijo
+                        && header.nro_endoso == model.Endoso);
+            }
+        }
+
+        /// <summary>
+        /// Regresa el [id_pv] de la póliza con los parámetros indicados.
+        /// </summary>
+        /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
+        /// <returns>El [id_pv] de la póliza indicada.</returns>
+        public static int ObtenerIdPv(ConsultarPolizaViewModel model)
+        {
+            using (var db = new EmisionContext(entorno)) {
+                return db
+                    .pv_header
+                    .FirstOrDefault(header =>
+                        header.cod_suc == model.CodSucursal
+                        && header.cod_ramo == model.CodRamo
+                        && header.nro_pol == model.NroPoliza
+                        && header.aaaa_endoso == model.Sufijo
+                        && header.nro_endoso == model.Endoso)
+                    .id_pv;
+            }
         }
     }
 }
