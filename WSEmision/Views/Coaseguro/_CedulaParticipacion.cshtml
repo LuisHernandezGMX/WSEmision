@@ -1,0 +1,74 @@
+﻿@model WSEmision.Models.DAL.DTO.Coaseguro.CedulaParticipacionCoaseguroResultSet
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Cédula de Participación
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <strong class="text-info">Datos Generales</strong>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Póliza</dt>
+                    <dd>@Model.DatosGenerales.Poliza</dd>
+
+                    <dt>Asegurado</dt>
+                    <dd>@Model.DatosGenerales.Asegurado</dd>
+
+                    <dt>Ramo Comercial</dt>
+                    <dd>@Model.DatosGenerales.RamoComercial</dd>
+
+                    
+                </dl>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Tipo de Endoso</dt>
+                    <dd>@Model.DatosGenerales.TipoEndoso</dd>
+
+                    <dt>Tipo de Póliza</dt>
+                    <dd>@Model.DatosGenerales.TipoPoliza</dd>
+
+                    <dt>Fecha de Emisión</dt>
+                    <dd>@Model.DatosGenerales.FechaEmision.ToString("dd/MM/yyyy")</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <strong class="text-info">Participación de las Coaseguradoras</strong>
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Coaseguradora</th>
+                                <th>Porcentaje</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.</td>
+                                <td>@Model.DatosGenerales.PorcentajeGMX.ToString("N2") %</td>
+                                <td>$ @Model.DatosGenerales.MontoParticipacionGMX.ToString("N2")</td>
+                            </tr>
+                            @foreach (var coas in Model.Coaseguradoras) {
+                                <tr>
+                                    <td>@coas.Coaseguradora</td>
+                                    <td>@coas.PorcentajeParticipacion.ToString("N2") %</td>
+                                    <td>$ @coas.MontoParticipacion.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

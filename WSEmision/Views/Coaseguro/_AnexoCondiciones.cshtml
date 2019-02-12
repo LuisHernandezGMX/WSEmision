@@ -1,0 +1,126 @@
+﻿@model WSEmision.Models.DAL.DTO.Coaseguro.AnexoCondicionesParticularesCoaseguroResultSet
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        Anexo de Condiciones Particulares
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <strong class="text-success">Datos Generales</strong>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Asegurado</dt>
+                    <dd>@Model.DatosGenerales.Asegurado</dd>
+
+                    <dt>RFC</dt>
+                    <dd>@Model.DatosGenerales.RFC</dd>
+
+                    <dt>Domicilio Fiscal</dt>
+                    <dd>@Model.DatosGenerales.DomicilioFiscal.Replace("|", ", ")</dd>
+                </dl>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Giro</dt>
+                    <dd>@Model.DatosGenerales.Giro</dd>
+
+                    <dt>Póliza Líder</dt>
+                    <dd>@Model.DatosGenerales.PolizaLider</dd>
+
+                    <dt>Vigencia</dt>
+                    <dd>@(Model.DatosGenerales.FechaVigencia?.ToString("dd/MM/yyyy") ?? "No Especificada")</dd>
+                </dl>
+            </div>
+        </div>
+        @if (Model.Coaseguradoras.Count() > 0) {
+            // Si es Líder, mostrar Ramos y Fees de GMX y Coaseguradoras Seguidoras
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong class="text-success">Participación de las Coaseguradoras</strong>
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Ramo</th>
+                                    <th>Coaseguradora</th>
+                                    <th>Porcentaje de Participación</th>
+                                    <th>Porcentaje de Fee</th>
+                                    <th>Monto de Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Model.GMX.Ramo</td>
+                                    <td>GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.</td>
+                                    <td>@Model.GMX.PorcentajeGMX</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                @foreach (var coas in Model.Coaseguradoras) {
+                                    <tr>
+                                        <td>@coas.Ramo</td>
+                                        <td>@coas.Coaseguradora</td>
+                                        <td>@coas.PorcentajeParticipacion</td>
+                                        <td>@coas.PorcentajeFee.ToString("N2") %</td>
+                                        <td>$ @coas.MontoFee.ToString("N2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <strong class="text-success">Datos Específicos</strong>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Fecha de Emisión</dt>
+                    <dd>@Model.DatosEspecificos.FechaEmision.ToString("dd/MM/yyyy")</dd>
+
+                    <dt>Sucursal</dt>
+                    <dd>@Model.DatosEspecificos.Sucursal</dd>
+
+                    <dt>Moneda</dt>
+                    <dd>@Model.DatosEspecificos.Moneda</dd>
+
+                    <dt>Forma de Pago</dt>
+                    <dd>@Model.DatosEspecificos.FormaPago</dd>
+
+                    <dt>Método de Pago</dt>
+                    <dd>@Model.DatosEspecificos.MetodoPago</dd>
+                </dl>
+            </div>
+            <div class="col-sm-6 col-xs-6">
+                <dl>
+                    <dt>Garantía de Pago</dt>
+                    <dd>@Model.DatosEspecificos.GarantiaPago</dd>
+
+                    <dt>Pago de Comisión al Agente</dt>
+                    <dd>@Model.DatosEspecificos.PagoComisionAgente</dd>
+
+                    <dt>Pago de Siniestro</dt>
+                    <dd>@Model.DatosEspecificos.PagoSiniestro</dd>
+
+                    <dt>Porcentaje Siniestro</dt>
+                    <dd>@Model.DatosEspecificos.PorcentajeSiniestro %</dd>
+
+                    <dt>Monto Siniestro</dt>
+                    <dd>$ @Model.DatosEspecificos.MontoSiniestro</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

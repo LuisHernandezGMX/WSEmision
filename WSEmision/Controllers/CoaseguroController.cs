@@ -28,10 +28,16 @@ namespace WSEmision.Controllers
             if (ModelState.IsValid) {
                 if (CoaseguroDao.ExistePolizaCoaseguro(model)) {
                     int idPv = CoaseguroDao.ObtenerIdPv(model);
+                    var tipoMovimiento = CoaseguroDao.ObtenerTipoMovimiento(idPv);
 
-                    ViewBag.IdPv = idPv;
-                    ViewBag.CedulaParticipacion = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
-                    ViewBag.AnexoCondiciones = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+                    if (tipoMovimiento < 2M || tipoMovimiento > 3M) {
+                        ModelState.AddModelError("ValidacionGeneral", "Esta póliza no se encuentra en coaseguro.");
+                    } else {
+                        ViewBag.IdPv = idPv;
+                        ViewBag.TipoMovimiento = tipoMovimiento;
+                        ViewBag.CedulaParticipacion = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
+                        ViewBag.AnexoCondiciones = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+                    }
                 } else {
                     ModelState.AddModelError("ValidacionGeneral", "No se encontró ninguna póliza con esos parámetros.");
                 }

@@ -330,6 +330,8 @@
     <Content Include="webfonts\fa-brands-400.woff" />
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
+    <Content Include="Views\Coaseguro\_CedulaParticipacion.cshtml" />
+    <Content Include="Views\Coaseguro\_AnexoCondiciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

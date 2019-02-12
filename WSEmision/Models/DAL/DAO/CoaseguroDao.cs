@@ -194,5 +194,19 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
                     .id_pv;
             }
         }
+
+        /// <summary>
+        /// Regresa el valor del campo [cod_operacion] de la póliza indicada.
+        /// </summary>
+        /// <param name="idPv">El Id de la póliza a consultar.</param>
+        /// <returns>El código de la tabla [ttipo_mov] a la que pertenece la póliza.</returns>
+        public static decimal ObtenerTipoMovimiento(int idPv)
+        {
+            using (var db = new EmisionContext(entorno)) {
+                return db.pv_header
+                    .FirstOrDefault(header => header.id_pv == idPv)
+                    .cod_operacion;
+            }
+        }
     }
 }
