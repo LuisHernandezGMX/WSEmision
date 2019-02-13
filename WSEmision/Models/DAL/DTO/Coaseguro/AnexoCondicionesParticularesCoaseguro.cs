@@ -161,11 +161,11 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
         /// <summary>
         /// El porcentaje de la participación para el siniestro.
         /// </summary>
-        public string PorcentajeSiniestro { get; set; }
+        public decimal? PorcentajeSiniestro { get; set; }
 
         /// <summary>
         /// El monto del siniestro.
         /// </summary>
-        public string MontoSiniestro { get; set; }
+        public decimal? MontoSiniestro { get; set; }
     }
 }

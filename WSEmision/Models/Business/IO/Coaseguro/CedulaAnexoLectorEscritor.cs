@@ -244,7 +244,7 @@ namespace WSEmision.Models.Business.IO.Coaseguro
             } else {
                 plantilla[indice] =
                     $@"$\Box$ Hasta el \underline{{\hspace{{2cm}}}}\% del límite de responsabilidad\\{newLine}"
-                    + $@"\indent $\boxtimes$ Hasta un límite máximo de \$\underline{{{anexo.DatosEspecificos.MontoSiniestro}}}";
+                    + $@"\indent $\boxtimes$ Hasta un límite máximo de \$ \underline{{{anexo.DatosEspecificos.MontoSiniestro?.ToString("N2")}}}";
             }
 
             // Sucursal y Fecha de Emisión

@@ -115,10 +115,22 @@
                     <dd>@Model.DatosEspecificos.PagoSiniestro</dd>
 
                     <dt>Porcentaje Siniestro</dt>
-                    <dd>@Model.DatosEspecificos.PorcentajeSiniestro %</dd>
+                    <dd>
+                        @if (Model.DatosEspecificos.PorcentajeSiniestro != null) {
+                            <span>@(Model.DatosEspecificos.PorcentajeSiniestro?.ToString("N2")) %</span>
+                        } else {
+                            @: No Aplica
+                        }
+                    </dd>
 
                     <dt>Monto Siniestro</dt>
-                    <dd>$ @Model.DatosEspecificos.MontoSiniestro</dd>
+                    <dd>
+                        @if (Model.DatosEspecificos.MontoSiniestro != null) {
+                            <span>$ @(Model.DatosEspecificos.MontoSiniestro?.ToString("N2"))</span>
+                        } else {
+                            @: No Aplica
+                        }
+                    </dd>
                 </dl>
             </div>
         </div>
