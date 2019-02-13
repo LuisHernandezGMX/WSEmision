@@ -37,21 +37,6 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
         public string Asegurado { get; set; }
 
         /// <summary>
-        /// El ramo comercial del asegurado.
-        /// </summary>
-        public string RamoComercial { get; set; }
-
-        /// <summary>
-        /// El tipo de endoso de esta póliza.
-        /// </summary>
-        public string TipoEndoso { get; set; }
-
-        /// <summary>
-        /// El tipo de esta póliza.
-        /// </summary>
-        public string TipoPoliza { get; set; }
-
-        /// <summary>
         /// El porcentaje de participación de GMX.
         /// </summary>
         public decimal PorcentajeGMX { get; set; }

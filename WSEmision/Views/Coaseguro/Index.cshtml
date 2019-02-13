@@ -80,8 +80,8 @@
 
             @if (ViewBag.TipoMovimiento == 3M) {
                 <br>
-                <a href="@Url.Action($"descargarCedulaYAnexo/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-danger">
-                    <span class="fas fa-download"></span>
+                <a href="@Url.Action($"descargarCedulaYAnexo/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-danger btn-sm">
+                    <span class="fas fa-file-pdf"></span>
                     Descargar Reporte Completo
                 </a>
             }

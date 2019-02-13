@@ -1,0 +1,143 @@
+﻿\documentclass[letterpaper,10pt]{article}
+
+\usepackage[english,spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fontspec}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{enumitem,amssymb}
+\usepackage{tikzpagenodes}
+\usepackage{eso-pic}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage[letterpaper,top=1.8cm,bottom=7cm,left=1cm,right=1cm,marginparwidth=1.75cm]{geometry}
+
+% Margen de páginas
+\AddToShipoutPictureBG{%
+ \begin{tikzpicture}[remember picture,overlay]
+   \node[inner sep=0pt,text width=\linewidth+2ex+\pgflinewidth,anchor=center] (H) at (current page header area.south) {%
+   
+   };
+   \draw ([shift={(-1ex,-1ex)}]current page text area.south west) rectangle
+          (H.north east);
+ \end{tikzpicture}
+}
+
+\setmainfont{Arial}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\setlength{\headheight}{5cm}
+\pagestyle{fancy}
+\fancyhf{}
+
+% Encabezado
+\rfoot{}
+\rhead{
+    \begin{center}
+        \begin{tabularx}{\textwidth}{X>{\footnotesize}l}
+            \multirow{5}{5cm}{\includegraphics[height=2.5cm]{LogoGMX.jpg}} & \textbf{Grupo Mexicano de Seguros, S.A. de C.V.}\\
+             & Tecoyotitla 412 Edificio GMX\\
+             & Col. Ex Hacienda de Guadalupe Chimalistac\\
+             & México, D.F. 01050\\
+             & Tel. (55) 5480 4000\\\\
+        \end{tabularx}
+        \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
+            \hline
+            <TIPO-ENDO> <TIPO-POLIZA>\\
+            <DESC-RAMO-COMERCIAL>\\
+            IDENTIFICADOR DE PÓLIZA: <SUC-COD-RAMO-POLIZA-ENDO-SUF>\\
+            \hline
+        \end{tabularx}
+    \end{center}
+}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0cm}
+
+\begin{document}
+
+%% Anexo de Condiciones Particulares de Coaseguro
+\begin{center}
+    \textbf{ANEXO DE CONDICIONES PARTICULARES DEL COASEGURO}
+\end{center}
+
+En adición a los contratos firmados entre las compañías COASEGURADORAS participantes y de la cédula de coaseguro firmada y que se incluye en la póliza correspondiente a cada negocio, se acuerdan las siguientes condiciones particulares del coaseguro.\\
+
+
+\textbf{DATOS GENERALES}\\\\
+\textbf{Datos del Contratante}: \underline{<ASEGURADO>}\\
+\textbf{RFC}: \underline{<RFC>}\\
+\textbf{Domicilio Fiscal}: \ul{<DOMICILIO-FISCAL>}\\
+\textbf{Giro o Actividad}: \ul{<GIRO>}\\
+\textbf{No. de Póliza (Coasegurador Líder)}: \underline{<NO-POLIZA>}\\
+\textbf{Vigencia}: \underline{<VIGENCIA>}\\
+
+\textbf{PARTICIPACIÓN EN COASEGURO}\\
+
+Las COASEGURADORAS acuerdan que la distribución de la participación en el riesgo por sección/ramo es el siguiente:
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|X|c|c|c|}
+        \hline
+        \textbf{Ramo} & \textbf{Coaseguradora} & \textbf{\% Participación} & \textbf{Tipo}\\\hline
+        <TABLA-ANEXO-PARTICIPACION-COASEGURADORAS>
+    \end{tabularx}
+\end{center}
+
+\textbf{MONEDA DE LA PÓLIZA}\\
+
+<MONEDA>
+
+\textbf{FORMA DE PAGO DEL ASEGURADO}\\
+
+<FORMA-PAGO-ASEGURADO>
+
+\textbf{PERÍODO DE GRACIA PARA EL PAGO DE LA PRIMA POR PARTE DEL ASEGURADO}\\
+
+<GARANTIA-PAGO>
+
+\newpage
+
+\textbf{MÉTODO DE PAGO DE PRIMAS ENTRE COMPAÑÍAS COASEGURADORAS}\\
+
+<METODO-PAGO>
+
+\textbf{PAGO DE COMISIONES AL AGENTE}\\
+
+<PAGO-COMISION-AGENTE>
+
+El pago de comisiones incluye los siguientes conceptos:\\
+
+$\Box$ Prima Neta\\
+\indent $\Box$ Recargos por pago fraccionado\\
+\indent $\Box$ Sobre comisión\\
+
+\textbf{COMISIÓN POR ADMINISTRACIÓN DE COASEGURO}\\
+
+La comisión por administración para la COASEGURADORA LÍDER será de \underline{\hspace{2cm}}\% sobre la participación de cada COASEGURADORA SEGUIDORA.\\
+
+\textbf{SINIESTROS E INDEMNIZACIONES}\\
+
+Las COASEGURADORAS acuerdan que los ajustes de los siniestros se lleven a cabo a través del panel de ajustadores de la COASEGURADORA LÍDER, asimismo, las indemnizaciones que corresponda a los siniestros proccedentes, será realizado por la COASEGURADORA LÍDER sin la previa autorización de las COASEGURADORAS SEGUIDORAS dentro de los límites siguientes:\\
+
+<PAGO-SINIESTRO>
+
+\newpage
+
+El presente anexo se firma en \underline{\textbf{<ANEXO-SUCURSAL>}} el día \underline{\textbf{<ANEXO-DIA>}} de \underline{\textbf{<ANEXO-MES>}} de \underline{\textbf{<ANEXO-ANIO>}}.\\
+
+\begin{center}
+    \textbf{LAS COASEGURADORAS}\\\vspace{1cm}
+    
+    \begin{tabularx}{\textwidth}{Xr}
+        \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
+        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
+        <TABLA-FIRMAS>
+    \end{tabularx}
+\end{center}
+	
+\end{document}

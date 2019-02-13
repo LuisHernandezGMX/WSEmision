@@ -16,12 +16,22 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    @Html.ActionLink("WS Emisión", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("WS Emisión", "Index", "Home", new { area = string.Empty }, new { @class = "navbar-brand" })
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Coaseguro", "Index", "Coaseguro")</li>
-                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                        <li>
+                            <a href="@Url.Action("Index", "Coaseguro", new { area = string.Empty })">
+                                <span class="fas fa-people-carry"></span>
+                                Coaseguro
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Help", new { area = string.Empty })">
+                                <span class="fas fa-code"></span>
+                                API
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

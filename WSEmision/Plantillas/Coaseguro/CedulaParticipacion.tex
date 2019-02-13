@@ -1,0 +1,114 @@
+﻿\documentclass[letterpaper,10pt]{article}
+
+\usepackage[english,spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fontspec}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{enumitem,amssymb}
+\usepackage{tikzpagenodes}
+\usepackage{eso-pic}
+\usepackage[letterpaper,top=1.8cm,bottom=7cm,left=1cm,right=1cm,marginparwidth=1.75cm]{geometry}
+
+% Margen de páginas
+\AddToShipoutPictureBG{%
+ \begin{tikzpicture}[remember picture,overlay]
+   \node[inner sep=0pt,text width=\linewidth+2ex+\pgflinewidth,anchor=center] (H) at (current page header area.south) {%
+   
+   };
+   \draw ([shift={(-1ex,-1ex)}]current page text area.south west) rectangle
+          (H.north east);
+ \end{tikzpicture}
+}
+
+\setmainfont{Arial}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\setlength{\headheight}{5cm}
+\pagestyle{fancy}
+\fancyhf{}
+
+% Encabezado
+\rfoot{}
+\rhead{
+    \begin{center}
+        \begin{tabularx}{\textwidth}{X>{\footnotesize}l}
+            \multirow{5}{5cm}{\includegraphics[height=2.5cm]{LogoGMX.jpg}} & \textbf{Grupo Mexicano de Seguros, S.A. de C.V.}\\
+             & Tecoyotitla 412 Edificio GMX\\
+             & Col. Ex Hacienda de Guadalupe Chimalistac\\
+             & México, D.F. 01050\\
+             & Tel. (55) 5480 4000\\\\
+        \end{tabularx}
+        \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
+            \hline
+            <TIPO-ENDO> <TIPO-POLIZA>\\
+            <DESC-RAMO-COMERCIAL>\\
+            IDENTIFICADOR DE PÓLIZA: <SUC-COD-RAMO-POLIZA-ENDO-SUF>\\
+            \hline
+        \end{tabularx}
+    \end{center}
+}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0cm}
+
+\begin{document}
+
+%% Cédula de Participación en Coaseguro
+\begin{center}
+    \textbf{CÉDULA DE PARTICIPACIÓN EN COASEGURO}
+\end{center}
+
+\textbf{Queda entendido y convenido que la presente cédula se adhiere y forma parte de la Póliza de Seguros número <SUC-COD-RAMO-POLIZA-ENDO-SUF> emitida a nombre de <ASEGURADO> a quien en lo sucesivo se identificará como ``el asegurado/contratante''.}\\
+
+Por medio de la presente cédula, se hace constar que las coberturas, ramos y/o secciones contratadas al amparo de la Póliza de Seguros antes mencionadas, se encuentran en coaseguro con las siguientes Compañías de Seguros (en adelante ``las coaseguradoras'') y en los porcentajes de participación, que a continuación se detallan para cada sección, ramo y/o cobertura.
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|X|c|c|r|}
+        \hline
+        \textbf{Compañía Coaseguradora} & \textbf{Tipo Coasegurador} & \textbf{Participación} & \textbf{Monto de Participación}\\\hline
+        <CEDULA-TABLA-COASEGURADORAS>
+    \end{tabularx}
+\end{center}
+
+Las coaseguradoras manifiestan su conformidad y acuerdan con el asegurado lo siguiente:
+
+\renewcommand{\labelenumii}{\roman{enumii}}
+\begin{enumerate}
+    \item Designan a \textbf{\underline{Grupo Mexicano de Seguros, S.A. de C.V.}} como Compañía Líder, quien será representante común de las Compañías Coaseguradoras, facultándose a:
+        \begin{enumerate}
+            \item Emitir póliza de seguros y endosos a favor del asegurado/contratante y entrega de la documentación contractual, previo acuerdo de las coaseguradoras, mismos que contendrán las firmas de los representantes legales de las coaseguradoras.
+            \item Recibir por parte del asegurado el pago de la prima correspondiente y distribuirlo entre las coaseguradoras en función de su porcentaje de participación, en el entendido de que la recepción de dicho pago en ningún momento implicará que la Compañía Líder asume obligaciones y/o responsabilidad de las demás coaseguradoras.
+            \item Asignar ajustador en común acuerdo con las Compañías Coaseguradoras para la tramitación de los siniestros, quien deberá informar a todas las coaseguradoras sobre el desarrollo del ajuste del siniestro.
+            \item Realizar el ajuste del siniestro y de ser éste procedente, solicitar que cada una de las coaseguradoras cubra el monto de la indemnización que le corresponda en función de su porcentaje de participación en el riesgo hasta los límites máximos de responsabilidad o sumas aseguradas contratadas, en ningún momento la coaseguradora líder asume las obligaciones y/o responsabilidad de las demás coaseguradoras por falta o demora en el pago de su participación en el siniestro.
+            \item Ser el medio formal de comunicación frente al Asegurado y Coaseguradoras, respecto a cualquier decisión de estas últimas o cualquier hecho que el Asegurado informe.
+        \end{enumerate}
+    \item Queda entendido y convenido que:
+        \renewcommand{\labelenumii}{\alph{enumii}}
+        \begin{enumerate}
+            \item Debido a que el coaseguro es la participación de dos o más Instituciones de Seguros en un mismo riesgo, en virtud de contratos directos realizados por cada una de ellas con un mismo asegurado, cada coaseguradora deberá cumplir individualmente para con el asegurado las obligaciones que asume en función del porcentaje de su participación arriba señalado.
+            \item Por lo anterior, la Coaseguradora Líder únicamente será responsable hasta su porcentaje de participación establecido en la presente cédula, y de ninguna manera será responsable solidario en el cumplimiento de las obligaciones que cada una de las compañías coaseguradoras asume por su participación en coaseguro respecto de las coberturas y/o secciones de la Póliza de Seguro antes mencionada, ya sea porque alguna de ellas no cumpla en todo o en parte con sus obligaciones frente al asegurado, o por haber cancelado su participación en este coaseguro.
+            \item Esta cédula de coaseguro no afecta los derechos del Asegurado con relación a la presente póliza y respecto a la participación de cada una de las ``Coaseguradoras'' en la proporción que a cada una de ellas le corresponda.
+            \item Las coaseguradoras podrán rescindir unilateralmente su participación en coaseguro, bajo los supuestos que prevé la Ley, a excepción de seguros obligatorios, respecto de las coberturas, ramos y/o secciones de la Póliza de Seguro antes mencionada y sus endosos, debiendo notificarlo por escrito al cliente, en el domicilio que aparece en la carátula de la Póliza de Seguro, con copia a todas las coaseguradoras participantes, surtiendo efecto dicha rescisión 30 (treinta) días naturales después de haberse realizado la respectiva notificación, además deberá devolver a la Coaseguradora Líder la parte de la prima no devengada.
+        \end{enumerate}
+\end{enumerate}
+
+La Coaseguradora Líder emitirá la cancelación de esta Póliza de Seguro con efecto a partir de la fecha efectiva de cancelación, entregará la prima no devengada al Asegurado y expedirá una nueva Póliza de Seguro hasta los límites de responsabilidad de las coaseguradoras que permanecen vigentes en el riesgo, en el entendido que el porcentaje de participación que haya sido cancelado por alguna coaseguradora, quedará sin cobertura y a cargo del asegurado.\\
+
+La vigencia de la presente cédula es la misma que la vigencia de la presente póliza.\\
+
+Como constancia de conformidad con lo anterior, se firma la presente cédula por las compañías participantes el día \textbf{\underline{<CEDULA-DIA>}} de \textbf{\underline{<CEDULA-MES>}} de \textbf{\underline{<CEDULA-ANIO>}}.\\
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{Xr}
+        \textbf{GRUPO MEXICANO DE SEGUROS, S.A. DE C.V.} &\\
+        Nombre y Firma Representante Legal & \underline{\hspace{5cm}}\\\\\\\\
+        <TABLA-FIRMAS>
+    \end{tabularx}
+\end{center}
+
+\end{document}

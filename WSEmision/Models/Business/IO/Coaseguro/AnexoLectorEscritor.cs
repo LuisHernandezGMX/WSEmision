@@ -7,21 +7,14 @@ using System.Text;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 using WSEmision.Models.Business.Extensions;
 
+/// <summary>
+/// Lee y genera los reportes para la Cédula de Participación
+/// en Coaseguro y el Anexo de Condiciones Particulares
+/// en un solo archivo PDF.
 namespace WSEmision.Models.Business.IO.Coaseguro
 {
-    /// <summary>
-    /// Lee y genera los reportes para la Cédula de Participación
-    /// en Coaseguro y el Anexo de Condiciones Particulares
-    /// en un solo archivo PDF.
-    /// </summary>
-    public sealed class CedulaAnexoLectorEscritor : LatexLectorEscritor
+    public class AnexoLectorEscritor : LatexLectorEscritor
     {
-        #region Variables Privadas
-        /// <summary>
-        /// Contiene los datos de la Cédula de Participación en Coaseguro.
-        /// </summary>
-        private CedulaParticipacionCoaseguroResultSet cedula;
-
         /// <summary>
         /// Contiene los datos del Anexo y Condiciones Particulares en Coaseguro.
         /// </summary>
@@ -31,32 +24,27 @@ namespace WSEmision.Models.Business.IO.Coaseguro
         /// Contiene los datos del encabezado del reporte.
         /// </summary>
         private EncabezadoReportesEmisionResultSet encabezado;
-        #endregion
 
         /// <summary>
-        /// Genera una nueva instancia con la cédula, el anexo y el encabezado indicados.
+        /// Genera una nueva instancia con el anexo y el encabezado indicados.
         /// </summary>
-        /// <param name="cedula">Los datos de la Cédula de Participación en Coaseguro.</param>
         /// <param name="anexo">Los datos del Anexo y Condiciones Particulares en Coaseguro.</param>
         /// <param name="encabezado">Los datos del encabezado del reporte.</param>
         /// <param name="rutaCompilador">La ruta absoluta al compilador (.exe) de LaTex.</param>
         /// <param name="inputDir">La ruta del directorio de multimedia de la plantilla.</param>
-        public CedulaAnexoLectorEscritor(
-            CedulaParticipacionCoaseguroResultSet cedula,
+        public AnexoLectorEscritor(
             AnexoCondicionesParticularesCoaseguroResultSet anexo,
             EncabezadoReportesEmisionResultSet encabezado,
             string rutaCompilador,
             string inputDir)
         : base(rutaCompilador, inputDir)
         {
-            this.cedula = cedula;
             this.anexo = anexo;
             this.encabezado = encabezado;
         }
 
         /// <summary>
-        /// Rellena la plantilla con la información relevante sobre la Cédula
-        /// de Participación y el Anexo de Condiciones Particulares.
+        /// Rellena la plantilla con la información relevante sobre el Anexo de Condiciones Particulares.
         /// </summary>
         /// <param name="plantilla">Las filas de la plantilla leídas desde el archivo .tex.</param>
         protected override void RellenarPlantilla(IList<string> plantilla)
@@ -75,28 +63,7 @@ namespace WSEmision.Models.Business.IO.Coaseguro
 
             indice = plantilla.FindIndex(linea => linea.Contains("<SUC-COD-RAMO-POLIZA-ENDO-SUF>"), indice);
             plantilla[indice] = plantilla[indice]
-                .Replace("<SUC-COD-RAMO-POLIZA-ENDO-SUF>", cedula.DatosGenerales.Poliza);
-
-            // Cédula de Participación
-            indice = plantilla.FindIndex(linea => linea.Contains("<SUC-COD-RAMO-POLIZA-ENDO-SUF>"), indice);
-            plantilla[indice] = plantilla[indice]
-                .Replace("<SUC-COD-RAMO-POLIZA-ENDO-SUF>", cedula.DatosGenerales.Poliza);
-
-            indice = plantilla.FindIndex(linea => linea.Contains("<ASEGURADO>"), indice);
-            plantilla[indice] = plantilla[indice]
-                .Replace("<ASEGURADO>", cedula.DatosGenerales.Asegurado);
-
-            indice = plantilla.FindIndex(linea => linea.Contains("<CEDULA-TABLA-COASEGURADORAS>"), indice);
-            plantilla[indice] = ObtenerTablaCoaseguradorasCedulaParticipacion();
-
-            indice = plantilla.FindIndex(linea => linea.Contains("<CEDULA-DIA>"), indice);
-            plantilla[indice] = plantilla[indice]
-                .Replace("<CEDULA-DIA>", cedula.DatosGenerales.FechaEmision.Day.ToString().PadLeft(2, '0'))
-                .Replace("<CEDULA-MES>", cedula.DatosGenerales.FechaEmision.ToString("MMMM", CultureInfo.GetCultureInfo("es-MX")))
-                .Replace("<CEDULA-ANIO>", cedula.DatosGenerales.FechaEmision.Year.ToString());
-
-            indice = plantilla.FindIndex(linea => linea.Contains("<TABLA-FIRMAS>"), indice);
-            plantilla[indice] = ObtenerTablaRepresentantes();
+                .Replace("<SUC-COD-RAMO-POLIZA-ENDO-SUF>", encabezado.Poliza);
 
             // Anexo y Condiciones Particulares
             indice = plantilla.FindIndex(linea => linea.Contains("<ASEGURADO>"), indice);
@@ -130,48 +97,6 @@ namespace WSEmision.Models.Business.IO.Coaseguro
         }
 
         /// <summary>
-        /// Regresa el código para la tabla de coaseguradoras con sus respectivos porcentajes y montos
-        /// de participación para la sección de Cédula de Participación.
-        /// </summary>
-        /// <returns>Una cadena con todo el código de la tabla.</returns>
-        private string ObtenerTablaCoaseguradorasCedulaParticipacion()
-        {
-            var builder = new StringBuilder($@"GRUPO MEXICANO DE SEGUROS, S.A. DE C.V. & Líder & ")
-                .Append($@"{cedula.DatosGenerales.PorcentajeGMX}\% & ")
-                .AppendLine($@"\$ {cedula.DatosGenerales.MontoParticipacionGMX.ToString("N2")}\\\hline");
-
-            foreach (var coas in cedula.Coaseguradoras) {
-                builder
-                    .Append($@"{coas.Coaseguradora} & Seguidor & ")
-                    .Append($@"{coas.PorcentajeParticipacion}\% & ")
-                    .AppendLine($@"\$ {coas.MontoParticipacion.ToString("N2")}\\\hline");
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// Regresa el código para la tabla de las firmas de los representantes legales de cada coaseguradora
-        /// para la sección de Cédula de Participación y Anexo de Condiciones Específicas.
-        /// </summary>
-        /// <returns>Una cadena con todo el código de la tabla.</returns>
-        private string ObtenerTablaRepresentantes()
-        {
-            var builder = new StringBuilder();
-            var coas = cedula.Coaseguradoras;
-            var numCoas = coas.Count();
-            
-            for (int i = 0; i < numCoas; i++) {
-                builder
-                    .AppendLine($@"\textbf{{{coas.ElementAt(i).Coaseguradora}}} &\\")
-                    .Append(@"Nombre y Firma Representante Legal & \underline{\hspace{5cm}}")
-                    .AppendLine((i < numCoas - 1) ? @"\\\\\\\\" : string.Empty);
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
         /// Regresa el código para la tabla de participación por sección/ramo para la sección de 
         /// Anexo de Condiciones Particulares.
         /// </summary>
@@ -186,7 +111,7 @@ namespace WSEmision.Models.Business.IO.Coaseguro
                     .Append($@"{coas.Ramo} & {coas.Coaseguradora} & ")
                     .AppendLine($@"{coas.PorcentajeParticipacion}\% & Seguidor\\\hline");
             }
-            
+
             return builder.ToString();
         }
 
@@ -268,6 +193,27 @@ namespace WSEmision.Models.Business.IO.Coaseguro
             // Tabla de Firmas
             indice = plantilla.FindIndex(linea => linea.Contains("<TABLA-FIRMAS>"), indice);
             plantilla[indice] = ObtenerTablaRepresentantes();
+        }
+
+        /// <summary>
+        /// Regresa el código para la tabla de las firmas de los representantes legales de cada coaseguradora
+        /// para la sección de Cédula de Participación y Anexo de Condiciones Específicas.
+        /// </summary>
+        /// <returns>Una cadena con todo el código de la tabla.</returns>
+        private string ObtenerTablaRepresentantes()
+        {
+            var builder = new StringBuilder();
+            var coas = anexo.Coaseguradoras;
+            var numCoas = coas.Count();
+
+            for (int i = 0; i < numCoas; i++) {
+                builder
+                    .AppendLine($@"\textbf{{{coas.ElementAt(i).Coaseguradora}}} &\\")
+                    .Append(@"Nombre y Firma Representante Legal & \underline{\hspace{5cm}}")
+                    .AppendLine((i < numCoas - 1) ? @"\\\\\\\\" : string.Empty);
+            }
+
+            return builder.ToString();
         }
     }
 }

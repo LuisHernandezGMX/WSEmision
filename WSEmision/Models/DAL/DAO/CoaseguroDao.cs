@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
+
 using WSEmision.Models.DAL.DTO.Coaseguro;
 using WSEmision.Models.DAL.Entities;
 using WSEmision.Models.DAL.ViewModels.Coaseguro;
@@ -15,6 +16,45 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
     public class CoaseguroDao
     {
         private static string entorno = ConfigurationManager.AppSettings["EntornoBD"];
+
+        /// <summary>
+        /// Ejecuta el procedimiento sp_EncabezadoReportesEmision()
+        /// y regresa toda la información de éste.
+        /// </summary>
+        /// <param name="idPv">El Id de la póliza a buscar.</param>
+        /// <returns>Una nueva instancia de <see cref="EncabezadoReportesEmisionResultSet"/>
+        /// con los datos requeridos.</returns>
+        public static EncabezadoReportesEmisionResultSet ObtenerEncabezado(int idPv)
+        {
+            EncabezadoReportesEmisionResultSet rs;
+
+            using (var db = new EmisionContext(entorno)) {
+                var cmd = db.Database.Connection.CreateCommand();
+                var paramIdPv = cmd.CreateParameter();
+
+                cmd.CommandText = "EXEC sp_EncabezadoReportesEmision @IdPv";
+                paramIdPv.ParameterName = "@IdPv";
+                paramIdPv.Value = idPv;
+                cmd.Parameters.Add(paramIdPv);
+
+                try {
+                    db.Database.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    var context = (db as IObjectContextAdapter).ObjectContext;
+
+                    rs = context
+                        .Translate<EncabezadoReportesEmisionResultSet>(reader)
+                        .FirstOrDefault() ?? new EncabezadoReportesEmisionResultSet();
+                } catch {
+                    // TODO: Posible Log.
+                    throw;
+                } finally {
+                    db.Database.Connection.Close();
+                }
+            }
+
+            return rs;
+        }
 
         /// <summary>
         /// Ejecuta el procedimiento sp_CedulaParticipacionCoaseguro() y regresa

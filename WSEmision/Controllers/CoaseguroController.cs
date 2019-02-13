@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 using WSEmision.Models.DAL.DAO.Coaseguro;
 using WSEmision.Models.DAL.ViewModels.Coaseguro;
