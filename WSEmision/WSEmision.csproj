@@ -207,6 +207,7 @@
     <Compile Include="Models\Business\IO\Coaseguro\AnexoLectorEscritor.cs" />
     <Compile Include="Models\Business\IO\Coaseguro\CedulaAnexoLectorEscritor.cs" />
     <Compile Include="Models\Business\IO\Coaseguro\CedulaLectorEscritor.cs" />
+    <Compile Include="Models\Business\IO\Coaseguro\CoaseguroExtensions.cs" />
     <Compile Include="Models\Business\IO\IEscritorReporte.cs" />
     <Compile Include="Models\Business\IO\ILectorReporte.cs" />
     <Compile Include="Models\Business\IO\LatexLectorEscritor.cs" />
