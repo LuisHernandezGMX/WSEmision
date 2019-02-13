@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using WSEmision.Models.Business.Extensions.Coaseguro;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 
 namespace WSEmision.Models.Business.IO.Coaseguro

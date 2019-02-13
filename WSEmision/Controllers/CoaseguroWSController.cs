@@ -26,11 +26,11 @@ namespace WSEmision.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var rutaPlantilla = HostingEnvironment.MapPath("~/Plantillas/Coaseguro/CedulaParticipacionAnexoCondiciones.tex");
-            var pdf = CoaseguroService.GenerarCedulaParticipacionAnexoCondiciones(idPv, rutaPlantilla);
+            var pdf = CoaseguroService.GenerarCedulaYAnexo(idPv, rutaPlantilla);
 
-            response.Content = new StreamContent(new MemoryStream(pdf));
+            response.Content = new ByteArrayContent(pdf);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline") {
                 FileName = $"CedulaAnexo_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"
             };
 
@@ -50,9 +50,9 @@ namespace WSEmision.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var rutaPlantilla = HostingEnvironment.MapPath("~/Plantillas/Coaseguro/CedulaParticipacion.tex");
-            var pdf = CoaseguroService.GenerarCedulaParticipacion(idPv, rutaPlantilla);
+            var pdf = CoaseguroService.GenerarCedula(idPv, rutaPlantilla);
 
-            response.Content = new StreamContent(new MemoryStream(pdf));
+            response.Content = new ByteArrayContent(pdf);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
                 FileName = $"Cedula_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"
@@ -74,9 +74,9 @@ namespace WSEmision.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var rutaPlantilla = HostingEnvironment.MapPath("~/Plantillas/Coaseguro/AnexoCondiciones.tex");
-            var pdf = CoaseguroService.GenerarAnexoCondiciones(idPv, rutaPlantilla);
+            var pdf = CoaseguroService.GenerarAnexo(idPv, rutaPlantilla);
 
-            response.Content = new StreamContent(new MemoryStream(pdf));
+            response.Content = new ByteArrayContent(pdf);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
                 FileName = $"Anexo_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"

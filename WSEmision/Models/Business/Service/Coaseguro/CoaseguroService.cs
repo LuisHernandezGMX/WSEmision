@@ -2,6 +2,7 @@
 using System.IO;
 
 using WSEmision.Models.DAL.DAO.Coaseguro;
+using WSEmision.Models.Business.IO;
 using WSEmision.Models.Business.IO.Coaseguro;
 
 namespace WSEmision.Models.Business.Service.Coaseguro
@@ -26,23 +27,77 @@ namespace WSEmision.Models.Business.Service.Coaseguro
         /// La ruta absoluta al directorio de multimedia.
         /// </summary>
         private static string inputDir = Path.Combine(rutaLatex, "media");
+
+        /// <summary>
+        /// Indica el tipo de reporte que se va a generar.
+        /// </summary>
+        private enum TipoReporteCoaseguro
+        {
+            /// <summary>
+            /// Se genera el reporte únicamente
+            /// con la Cédula de Participación.
+            /// </summary>
+            CedulaParticipacion,
+
+            /// <summary>
+            /// Se genera el reporte únicamente con
+            /// el Anexo de Condiciones Particulares.
+            /// </summary>
+            AnexoCondicionesParticulares,
+
+            /// <summary>
+            /// Se genera el reporte con ambos apartados.
+            /// </summary>
+            Ambos
+        }
         #endregion Variables Privadas
 
+
         /// <summary>
-        /// Genera el reporte en PDF de la Cédula de Participación y el Anexo de
-        /// Condiciones del Coaseguro indicado.
+        /// Genera el reporte PDF con la Cédula de Participación y el
+        /// Anexo de Condiciones Particulares.
         /// </summary>
-        /// <param name="idPv">El ID de la póliza en coaseguro.</param>
+        /// <param name="IdPv">El Id de la póliza en coaseguro.</param>
         /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
         /// <returns>Los bytes del reporte generado en PDF.</returns>
-        public static byte[] GenerarCedulaParticipacionAnexoCondiciones(int idPv, string rutaPlantilla)
+        public static byte[] GenerarCedulaYAnexo(int idPv, string rutaPlantilla)
         {
-            var encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
-            var datosCedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
-            var datosAnexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+            return GenerarReporte(idPv, rutaPlantilla, TipoReporteCoaseguro.Ambos);
+        }
 
+        /// <summary>
+        /// Genera el reporte PDF únicamente con la Cédula de Participación.
+        /// </summary>
+        /// <param name="IdPv">El Id de la póliza en coaseguro.</param>
+        /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
+        /// <returns>Los bytes del reporte generado en PDF.</returns>
+        public static byte[] GenerarCedula(int idPv, string rutaPlantilla)
+        {
+            return GenerarReporte(idPv, rutaPlantilla, TipoReporteCoaseguro.CedulaParticipacion);
+        }
+
+        /// <summary>
+        /// Genera el reporte PDF únicamente con el Anexo de Condiciones Particulares.
+        /// </summary>
+        /// <param name="IdPv">El Id de la póliza en coaseguro.</param>
+        /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
+        /// <returns>Los bytes del reporte generado en PDF.</returns>
+        public static byte[] GenerarAnexo(int idPv, string rutaPlantilla)
+        {
+            return GenerarReporte(idPv, rutaPlantilla, TipoReporteCoaseguro.AnexoCondicionesParticulares);
+        }
+
+        /// <summary>
+        /// Genera el reporte PDF indicado.
+        /// </summary>
+        /// <param name="idPv">El Id de la póliza en coaseguro.</param>
+        /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
+        /// <param name="tipo">El tipo de reporte que se quiere generar.</param>
+        /// <returns>Los bytes del reporte generado en PDF.</returns>
+        private static byte[] GenerarReporte(int idPv, string rutaPlantilla, TipoReporteCoaseguro tipo)
+        {
             var outputDir = Path.Combine(rutaLatex, Guid.NewGuid().ToString());
-            var latexIO = new CedulaAnexoLectorEscritor(datosCedula, datosAnexo, encabezado, rutaEjecutable, inputDir);
+            var latexIO = ObtenerLectorEscritor(idPv, tipo);
             var plantilla = latexIO.LeerPlantilla(rutaPlantilla);
 
             latexIO.GenerarReporte(plantilla, outputDir);
@@ -53,49 +108,33 @@ namespace WSEmision.Models.Business.Service.Coaseguro
         }
 
         /// <summary>
-        /// Genera el reporte en PDF de la Cédula de Participación
-        /// del Coaseguro indicado.
+        /// Regresa una nueva instancia de <see cref="LatexLectorEscritor"/> dependiendo
+        /// del tipo requerido.
         /// </summary>
-        /// <param name="idPv">El ID de la póliza en coaseguro.</param>
-        /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
-        /// <returns>Los bytes del reporte generado en PDF.</returns>
-        public static byte[] GenerarCedulaParticipacion(int idPv, string rutaPlantilla)
+        /// <param name="idPv">El Id de la póliza en coaseguro.</param>
+        /// <param name="rutaEjecutable"></param>
+        /// <param name="inputDir"></param>
+        /// <returns></returns>
+        private static LatexLectorEscritor ObtenerLectorEscritor(int idPv, TipoReporteCoaseguro tipo)
         {
             var encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
-            var datosCedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
 
-            var outputDir = Path.Combine(rutaLatex, Guid.NewGuid().ToString());
-            var latexIO = new CedulaLectorEscritor(datosCedula, encabezado, rutaEjecutable, inputDir);
-            var plantilla = latexIO.LeerPlantilla(rutaPlantilla);
+            switch (tipo) {
+                case TipoReporteCoaseguro.CedulaParticipacion:
+                    var datosCedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
+                    return new CedulaLectorEscritor(datosCedula, encabezado, rutaEjecutable, inputDir);
 
-            latexIO.GenerarReporte(plantilla, outputDir);
-            var pdf = latexIO.LeerReporte(outputDir);
-            Directory.Delete(outputDir, true);
+                case TipoReporteCoaseguro.AnexoCondicionesParticulares:
+                    var datosAnexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+                    return new AnexoLectorEscritor(datosAnexo, encabezado, rutaEjecutable, inputDir);
 
-            return pdf;
-        }
+                case TipoReporteCoaseguro.Ambos:
+                default:
+                    var cedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
+                    var anexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
 
-        /// <summary>
-        /// Genera el reporte en PDF del Anexo de Condiciones Particulares indicado.
-        /// </summary>
-        /// <param name="idPv">El ID de la póliza en coaseguro.</param>
-        /// <param name="rutaPlantilla">La ruta absoluta a la plantilla del reporte.</param>
-        /// <returns>Los bytes del reporte generado en PDF.</returns>
-        public static byte[] GenerarAnexoCondiciones(int idPv, string rutaPlantilla)
-        {
-            var encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
-            var datosAnexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
-
-            var outputDir = Path.Combine(rutaLatex, Guid.NewGuid().ToString());
-            var latexIO = new AnexoLectorEscritor(datosAnexo, encabezado, rutaEjecutable, inputDir);
-
-            var plantilla = latexIO.LeerPlantilla(rutaPlantilla);
-
-            latexIO.GenerarReporte(plantilla, outputDir);
-            var pdf = latexIO.LeerReporte(outputDir);
-            Directory.Delete(outputDir, true);
-
-            return pdf;
+                    return new CedulaAnexoLectorEscritor(cedula, anexo, encabezado, rutaEjecutable, inputDir);
+            }
         }
     }
 }

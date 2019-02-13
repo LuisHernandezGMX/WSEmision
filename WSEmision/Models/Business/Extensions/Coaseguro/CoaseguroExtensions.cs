@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-using WSEmision.Models.Business.Extensions;
+using WSEmision.Models.Business.IO;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 
-namespace WSEmision.Models.Business.IO.Coaseguro
+namespace WSEmision.Models.Business.Extensions.Coaseguro
 {
     public static class CoaseguroExtensions
     {
