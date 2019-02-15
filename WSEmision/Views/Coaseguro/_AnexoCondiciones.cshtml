@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-4 col-xs-4">
                 <dl>
                     <dt>Fecha de Emisión</dt>
                     <dd>@Model.DatosEspecificos.FechaEmision.ToString("dd/MM/yyyy")</dd>
@@ -95,24 +95,32 @@
 
                     <dt>Moneda</dt>
                     <dd>@Model.DatosEspecificos.Moneda</dd>
-
+                </dl>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <dl>
                     <dt>Forma de Pago</dt>
                     <dd>@Model.DatosEspecificos.FormaPago</dd>
 
                     <dt>Método de Pago</dt>
                     <dd>@Model.DatosEspecificos.MetodoPago</dd>
-                </dl>
-            </div>
-            <div class="col-sm-6 col-xs-6">
-                <dl>
+
                     <dt>Garantía de Pago</dt>
                     <dd>@Model.DatosEspecificos.GarantiaPago</dd>
 
                     <dt>Pago de Comisión al Agente</dt>
                     <dd>@Model.DatosEspecificos.PagoComisionAgente</dd>
-
+                </dl>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <dl>
                     <dt>Pago de Siniestro</dt>
                     <dd>@Model.DatosEspecificos.PagoSiniestro</dd>
+
+                    <dt>Forma de Indemnización</dt>
+                    <dd>
+                        @(Model.DatosEspecificos.FormaIndemnizacion ?? "No Aplica")
+                    </dd>
 
                     <dt>Porcentaje Siniestro</dt>
                     <dd>
@@ -136,7 +144,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a href="#" class="btn btn-success btn-sm pull-right">
+                <a target="_blank" href="@Url.Action($"descargarAnexo/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-success btn-sm pull-right">
                     <span class="fas fa-file-pdf"></span>
                     Descargar Anexo de Condiciones Particulares
                 </a>

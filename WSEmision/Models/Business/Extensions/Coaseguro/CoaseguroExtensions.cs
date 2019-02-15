@@ -269,18 +269,23 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
                 + $@"\indent {(!esLider100 ? @"$\boxtimes$" : @"$\Box$")} Cada COASEGURADORA paga su participación \\{newLine}";
 
             // Siniestros e Indemnizaciones
-            var pagoSiniestro = anexo.DatosEspecificos.PagoSiniestro;
-            var esParticipacion = pagoSiniestro.Contains("Participación");
+            var formaIndemnizacion = anexo.DatosEspecificos.FormaIndemnizacion;
             indice = plantilla.FindIndex(linea => linea.Contains("<PAGO-SINIESTRO>"), indice);
 
-            if (pagoSiniestro.Contains("Participación")) {
+            if (formaIndemnizacion == null) {
                 plantilla[indice] =
                     $@"$\boxtimes$ Hasta el \underline{{{anexo.GMX.PorcentajeGMX}}}\% del límite de responsabilidad\\{newLine}"
                     + $@"\indent $\Box$ Hasta un límite máximo de \$\underline{{\hspace{{2cm}}}}";
             } else {
-                plantilla[indice] =
-                    $@"$\Box$ Hasta el \underline{{\hspace{{2cm}}}}\% del límite de responsabilidad\\{newLine}"
-                    + $@"\indent $\boxtimes$ Hasta un límite máximo de \$ \underline{{{anexo.DatosEspecificos.MontoSiniestro?.ToString("N2")}}}";
+                if (formaIndemnizacion == "Monto") {
+                    plantilla[indice] =
+                        $@"$\Box$ Hasta el \underline{{\hspace{{2cm}}}}\% del límite de responsabilidad\\{newLine}"
+                        + $@"\indent $\boxtimes$ Hasta un límite máximo de \$ \underline{{{anexo.DatosEspecificos.MontoSiniestro?.ToString("N2")}}}";
+                } else {
+                    plantilla[indice] =
+                        $@"$\boxtimes$ Hasta el \underline{{{anexo.DatosEspecificos.PorcentajeSiniestro?.ToString("N2")}}}\% del límite de responsabilidad\\{newLine}"
+                        + $@"\indent $\Box$ Hasta un límite máximo de \$\underline{{\hspace{{2cm}}}}";
+                }
             }
 
             // Sucursal y Fecha de Emisión

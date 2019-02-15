@@ -31,6 +31,7 @@ namespace WSEmision.Controllers
                     } else {
                         ViewBag.IdPv = idPv;
                         ViewBag.TipoMovimiento = tipoMovimiento;
+                        ViewBag.Encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
                         ViewBag.CedulaParticipacion = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
                         ViewBag.AnexoCondiciones = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
                     }

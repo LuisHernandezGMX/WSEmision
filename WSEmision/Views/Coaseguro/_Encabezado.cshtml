@@ -1,0 +1,35 @@
+﻿@model WSEmision.Models.DAL.DTO.Coaseguro.EncabezadoReportesEmisionResultSet
+
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        Información General de la Póliza
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <dl>
+                    <dt>Póliza</dt>
+                    <dd>@Model.Poliza</dd>
+                </dl>
+            </div>
+            <div class="col-sm-3">
+                <dl>
+                    <dt>Tipo de Endoso</dt>
+                    <dd>@Model.TipoEndoso</dd>
+                </dl>
+            </div>
+            <div class="col-sm-3">
+                <dl>
+                    <dt>Tipo de Póliza</dt>
+                    <dd>@Model.TipoPoliza</dd>
+                </dl>
+            </div>
+            <div class="col-sm-3">
+                <dl>
+                    <dt>Ramo Comercial</dt>
+                    <dd>@Model.RamoComercial</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

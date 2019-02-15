@@ -11,6 +11,8 @@ namespace WSEmision
             /************************************* GENERAL *************************************/
             bundles.Add(new ScriptBundle("~/bundles/General").Include(
                 "~/Scripts/jquery-{version}.js",
+                "~/Scripts/jquery.validate.js",
+                "~/Scripts/jquery.validate.unobtrusive.js",
                 "~/Scripts/popper.js",
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js",

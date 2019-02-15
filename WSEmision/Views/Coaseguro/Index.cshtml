@@ -75,12 +75,12 @@
                 </strong>
             </p>
 
+            @Html.Partial("_Encabezado", ViewBag.Encabezado as EncabezadoReportesEmisionResultSet)
             @Html.Partial("_CedulaParticipacion", ViewBag.CedulaParticipacion as CedulaParticipacionCoaseguroResultSet)
             @Html.Partial("_AnexoCondiciones", ViewBag.AnexoCondiciones as AnexoCondicionesParticularesCoaseguroResultSet)
 
             @if (ViewBag.TipoMovimiento == 3M) {
-                <br>
-                <a href="@Url.Action($"descargarCedulaYAnexo/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-danger btn-sm">
+                <a target="_blank" href="@Url.Action($"descargarCedulaYAnexo/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-danger btn-sm">
                     <span class="fas fa-file-pdf"></span>
                     Descargar Reporte Completo
                 </a>

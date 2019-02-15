@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -54,7 +53,7 @@ namespace WSEmision.Controllers
 
             response.Content = new ByteArrayContent(pdf);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline") {
                 FileName = $"Cedula_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"
             };
 
@@ -78,7 +77,7 @@ namespace WSEmision.Controllers
 
             response.Content = new ByteArrayContent(pdf);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline") {
                 FileName = $"Anexo_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"
             };
 

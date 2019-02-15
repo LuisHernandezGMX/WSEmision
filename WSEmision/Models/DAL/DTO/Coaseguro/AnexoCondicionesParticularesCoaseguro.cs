@@ -159,6 +159,11 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
         public string PagoSiniestro { get; set; }
 
         /// <summary>
+        /// La forma de indemnización del siniestro.
+        /// </summary>
+        public string FormaIndemnizacion { get; set; }
+
+        /// <summary>
         /// El porcentaje de la participación para el siniestro.
         /// </summary>
         public decimal? PorcentajeSiniestro { get; set; }

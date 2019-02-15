@@ -13,28 +13,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-4 col-xs-4">
                 <dl>
                     <dt>Póliza</dt>
                     <dd>@Model.DatosGenerales.Poliza</dd>
-
-                    <dt>Asegurado</dt>
-                    <dd>@Model.DatosGenerales.Asegurado</dd>
-
-                    <dt>Ramo Comercial</dt>
-                    <dd>@Model.DatosGenerales.RamoComercial</dd>
-
-                    
                 </dl>
             </div>
-            <div class="col-sm-6 col-xs-6">
+            <div class="col-sm-4 col-xs-4">
                 <dl>
-                    <dt>Tipo de Endoso</dt>
-                    <dd>@Model.DatosGenerales.TipoEndoso</dd>
-
-                    <dt>Tipo de Póliza</dt>
-                    <dd>@Model.DatosGenerales.TipoPoliza</dd>
-
+                    <dt>Asegurado</dt>
+                    <dd>@Model.DatosGenerales.Asegurado</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-xs-4">
+                <dl>
                     <dt>Fecha de Emisión</dt>
                     <dd>@Model.DatosGenerales.FechaEmision.ToString("dd/MM/yyyy")</dd>
                 </dl>
@@ -72,7 +64,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a href="#" class="btn btn-info btn-sm pull-right">
+                <a target="_blank" href="@Url.Action($"descargarCedula/{ViewBag.IdPv}", "coaseguro", new { httproute = "CoaseguroApi" })" class="btn btn-info btn-sm pull-right">
                     <span class="fas fa-file-pdf"></span>
                     Descargar Cédula de Participación
                 </a>

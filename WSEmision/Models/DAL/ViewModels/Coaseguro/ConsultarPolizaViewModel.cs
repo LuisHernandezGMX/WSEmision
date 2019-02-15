@@ -26,6 +26,7 @@ namespace WSEmision.Models.DAL.ViewModels.Coaseguro
         /// El número de la póliza a buscar.
         /// </summary>
         [Display(Name = "Póliza")]
+        [RegularExpression("[1-9][0-9]+", ErrorMessage = "Este campo acepta números únicamente.")]
         [Required(ErrorMessage = "El número de póliza es obligatorio.")]
         public decimal NroPoliza { get; set; }
 
@@ -33,6 +34,7 @@ namespace WSEmision.Models.DAL.ViewModels.Coaseguro
         /// El número de endoso [nro_endoso].
         /// </summary>
         [Display(Name = "Endoso")]
+        [RegularExpression(@"^0|[1-9][0-9]*$", ErrorMessage = "Este campo acepta números únicamente.")]
         [Required(ErrorMessage = "El número de endoso es obligatorio.")]
         public decimal Endoso { get; set; }
 
@@ -40,6 +42,7 @@ namespace WSEmision.Models.DAL.ViewModels.Coaseguro
         /// El número de sufijo [aaaa_endoso].
         /// </summary>
         [Display(Name = "Sufijo")]
+        [RegularExpression(@"^0|[1-9][0-9]*$", ErrorMessage = "Este campo acepta números únicamente.")]
         [Required(ErrorMessage = "El sufijo es obligatorio.")]
         public decimal Sufijo { get; set; }   
     }
