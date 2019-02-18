@@ -7,7 +7,6 @@
     string validRamo = IsPost ? (ViewData.ModelState.IsValidField("CodRamo") ? "has-success" : "has-error") : string.Empty;
     string validPoliza = IsPost ? (ViewData.ModelState.IsValidField("NroPoliza") ? "has-success" : "has-error") : string.Empty;
     string validSufijo = IsPost ? (ViewData.ModelState.IsValidField("Sufijo") ? "has-success" : "has-error") : string.Empty;
-    string validEndoso = IsPost ? (ViewData.ModelState.IsValidField("Endoso") ? "has-success" : "has-error") : string.Empty;
 }
 
 <div class="row">
@@ -16,7 +15,10 @@
             <span class="fas fa-people-carry"></span>
             Coaseguro
         </h1>
-        <p>Por favor, ingrese los datos de la póliza en Coaseguro.</p>
+        <h5>
+            Por favor, ingrese los datos de la póliza en Coaseguro.
+            <small>Nota: Solamente se muestra la información del endoso 0.</small>
+        </h5>
         <hr>
     </div>
 </div>
@@ -47,11 +49,6 @@
                         @Html.LabelFor(model => model.NroPoliza, new { @class = "control-label" })
                         @Html.TextBoxFor(model => model.NroPoliza, new { @class = "form-control input-sm", autofocus = "" })
                         @Html.ValidationMessageFor(model => model.NroPoliza, null, new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group @validEndoso">
-                        @Html.LabelFor(model => model.Endoso, new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Endoso, new { @class = "form-control input-sm", autofocus = "" })
-                        @Html.ValidationMessageFor(model => model.Endoso, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group @validSufijo">
                         @Html.LabelFor(model => model.Sufijo, new { @class = "control-label" })

@@ -27,7 +27,8 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         private EmisionContext db;
 
         /// <summary>
-        /// Genera una nueva conexión a la base de datos.
+        /// Genera una nueva conexión a la base de datos, tomando
+        /// el entorno del archivo [web.config].
         /// </summary>
         public CoaseguroDao()
         {
@@ -203,7 +204,8 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
 
         /// <summary>
         /// Indica si existe el registro en la tabla [pv_header] con la
-        /// llave primaria indicada por el Vista Modelo.
+        /// llave primaria indicada por el Vista Modelo. Este método
+        /// busca solamente el primer endoso ([nro_endoso] == 0).
         /// </summary>
         /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
         /// <returns>True si el registro existe con esas llaves primarias. De lo contrario, regresa False.</returns>
@@ -215,11 +217,12 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
                     && header.cod_ramo == model.CodRamo
                     && header.nro_pol == model.NroPoliza
                     && header.aaaa_endoso == model.Sufijo
-                    && header.nro_endoso == model.Endoso);
+                    && header.nro_endoso == 0M);
         }
 
         /// <summary>
-        /// Regresa el [id_pv] de la póliza con los parámetros indicados.
+        /// Regresa el [id_pv] de la póliza con los parámetros indicados. Este método
+        /// busca solamente el primer endoso ([nro_endoso] == 0).
         /// </summary>
         /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
         /// <returns>El [id_pv] de la póliza indicada.</returns>
@@ -232,7 +235,7 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
                     && header.cod_ramo == model.CodRamo
                     && header.nro_pol == model.NroPoliza
                     && header.aaaa_endoso == model.Sufijo
-                    && header.nro_endoso == model.Endoso)
+                    && header.nro_endoso == 0M)
                 .id_pv;
         }
 

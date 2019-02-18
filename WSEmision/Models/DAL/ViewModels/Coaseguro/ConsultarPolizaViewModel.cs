@@ -31,14 +31,6 @@ namespace WSEmision.Models.DAL.ViewModels.Coaseguro
         public decimal NroPoliza { get; set; }
 
         /// <summary>
-        /// El número de endoso [nro_endoso].
-        /// </summary>
-        [Display(Name = "Endoso")]
-        [RegularExpression(@"^0|[1-9][0-9]*$", ErrorMessage = "Este campo acepta números únicamente.")]
-        [Required(ErrorMessage = "El número de endoso es obligatorio.")]
-        public decimal Endoso { get; set; }
-
-        /// <summary>
         /// El número de sufijo [aaaa_endoso].
         /// </summary>
         [Display(Name = "Sufijo")]

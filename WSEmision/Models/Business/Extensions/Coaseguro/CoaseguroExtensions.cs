@@ -182,13 +182,13 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
         private static string ObtenerTablaCoaseguradorasCedulaParticipacion(CedulaParticipacionCoaseguroResultSet cedula)
         {
             var builder = new StringBuilder($@"GRUPO MEXICANO DE SEGUROS, S.A. DE C.V. & Líder & ")
-                .Append($@"{cedula.DatosGenerales.PorcentajeGMX}\% & ")
+                .Append($@"{cedula.DatosGenerales.PorcentajeGMX.ToString("N2")} \% & ")
                 .AppendLine($@"\$ {cedula.DatosGenerales.MontoParticipacionGMX.ToString("N2")}\\\hline");
 
             foreach (var coas in cedula.Coaseguradoras) {
                 builder
                     .Append($@"{coas.Coaseguradora} & Seguidor & ")
-                    .Append($@"{coas.PorcentajeParticipacion}\% & ")
+                    .Append($@"{coas.PorcentajeParticipacion.ToString("N2")} \% & ")
                     .AppendLine($@"\$ {coas.MontoParticipacion.ToString("N2")}\\\hline");
             }
 
@@ -204,12 +204,29 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
         private static string ObtenerTablaParticipacionAnexo(AnexoCondicionesParticularesCoaseguroResultSet anexo)
         {
             var builder = new StringBuilder(anexo.GMX.Ramo)
-                .AppendLine($@" & GRUPO MEXICANO DE SEGUROS, S.A. DE C.V. & {anexo.GMX.PorcentajeGMX}\% & Líder\\\hline");
+                .AppendLine($@" & GRUPO MEXICANO DE SEGUROS, S.A. DE C.V. & {anexo.GMX.PorcentajeGMX.ToString("N2")} \% & Líder\\\hline");
 
             foreach (var coas in anexo.Coaseguradoras) {
                 builder
                     .Append($@"{coas.Ramo} & {coas.Coaseguradora} & ")
-                    .AppendLine($@"{coas.PorcentajeParticipacion}\% & Seguidor\\\hline");
+                    .AppendLine($@"{coas.PorcentajeParticipacion.ToString("N2")} \% & Seguidor\\\hline");
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Regresa el código para la tabla de porcentajes y montos de Fee por coaseguradora seguidora
+        /// para la sección de Anexo de Condiciones Particulares.
+        /// </summary>
+        /// <param name="anexo"><Los datos del anexo de condiciones particulares.</param>
+        /// <returns>Una cadena con todo el código de la tabla.</returns>
+        private static string ObtenerTablaFeeAnexo(AnexoCondicionesParticularesCoaseguroResultSet anexo)
+        {
+            var builder = new StringBuilder();
+
+            foreach (var coas in anexo.Coaseguradoras) {
+                builder.AppendLine($@"{coas.Coaseguradora} & {coas.PorcentajeFee.ToString("N2")} \% & \$ {coas.MontoFee.ToString("N2")}\\\hline");
             }
 
             return builder.ToString();
@@ -265,8 +282,12 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
             var esLider100 = comisionAgente.Contains("100%");
             indice = plantilla.FindIndex(linea => linea.Contains("<PAGO-COMISION-AGENTE>"), indice);
             plantilla[indice] =
-                $@"{(esLider100 ? @"$\boxtimes$" : @"$\Box$")} La COASEGURADORA LÍDER paga el 100\%\\{newLine}"
+                $@"{(esLider100 ? @"$\boxtimes$" : @"$\Box$")} La COASEGURADORA LÍDER paga el 100 \%\\{newLine}"
                 + $@"\indent {(!esLider100 ? @"$\boxtimes$" : @"$\Box$")} Cada COASEGURADORA paga su participación \\{newLine}";
+
+            // Fees
+            indice = plantilla.FindIndex(linea => linea.Contains("<TABLA-ANEXO-FEE>"), indice);
+            plantilla[indice] = ObtenerTablaFeeAnexo(anexo);
 
             // Siniestros e Indemnizaciones
             var formaIndemnizacion = anexo.DatosEspecificos.FormaIndemnizacion;
@@ -274,16 +295,16 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
 
             if (formaIndemnizacion == null) {
                 plantilla[indice] =
-                    $@"$\boxtimes$ Hasta el \underline{{{anexo.GMX.PorcentajeGMX}}}\% del límite de responsabilidad\\{newLine}"
+                    $@"$\boxtimes$ Hasta el \underline{{{anexo.GMX.PorcentajeGMX.ToString("N2")}}} \% del límite de responsabilidad\\{newLine}"
                     + $@"\indent $\Box$ Hasta un límite máximo de \$\underline{{\hspace{{2cm}}}}";
             } else {
                 if (formaIndemnizacion == "Monto") {
                     plantilla[indice] =
-                        $@"$\Box$ Hasta el \underline{{\hspace{{2cm}}}}\% del límite de responsabilidad\\{newLine}"
+                        $@"$\Box$ Hasta el \underline{{\hspace{{2cm}}}} \% del límite de responsabilidad\\{newLine}"
                         + $@"\indent $\boxtimes$ Hasta un límite máximo de \$ \underline{{{anexo.DatosEspecificos.MontoSiniestro?.ToString("N2")}}}";
                 } else {
                     plantilla[indice] =
-                        $@"$\boxtimes$ Hasta el \underline{{{anexo.DatosEspecificos.PorcentajeSiniestro?.ToString("N2")}}}\% del límite de responsabilidad\\{newLine}"
+                        $@"$\boxtimes$ Hasta el \underline{{{anexo.DatosEspecificos.PorcentajeSiniestro?.ToString("N2")}}} \% del límite de responsabilidad\\{newLine}"
                         + $@"\indent $\Box$ Hasta un límite máximo de \$\underline{{\hspace{{2cm}}}}";
                 }
             }
