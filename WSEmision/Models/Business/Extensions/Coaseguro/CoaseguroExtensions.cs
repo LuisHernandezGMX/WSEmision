@@ -219,7 +219,7 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
         /// Regresa el código para la tabla de porcentajes y montos de Fee por coaseguradora seguidora
         /// para la sección de Anexo de Condiciones Particulares.
         /// </summary>
-        /// <param name="anexo"><Los datos del anexo de condiciones particulares.</param>
+        /// <param name="anexo">Los datos del anexo de condiciones particulares.</param>
         /// <returns>Una cadena con todo el código de la tabla.</returns>
         private static string ObtenerTablaFeeAnexo(AnexoCondicionesParticularesCoaseguroResultSet anexo)
         {
@@ -230,6 +230,26 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Regresa el código para la sección de conceptos incluidos en el pago de comisión al agente para
+        /// la sección de Anexo de Condiciones Particulares.
+        /// </summary>
+        /// <param name="anexo">Los datos del anexo de condiciones particulares.</param>
+        /// <returns>Una cadena con el código de los conceptos.</returns>
+        private static string ObtenerConceptosPagoComisionAgenteAnexo(AnexoCondicionesParticularesCoaseguroResultSet anexo)
+        {
+            var builder = new StringBuilder();
+            var primaNeta = anexo.DatosEspecificos.PrimaNetaComisionAgente;
+            var recargo = anexo.DatosEspecificos.RecargoPagoFraccionado;
+            var sobrecomision = anexo.DatosEspecificos.SobreComision;
+
+            return builder
+                .AppendLine($@"${(primaNeta ? @"\boxtimes" : @"\Box")}$ Prima Neta\\")
+                .AppendLine($@"\indent ${(recargo ? @"\boxtimes" : @"\Box")}$ Recargos por pago fraccionado\\")
+                .AppendLine($@"\indent ${(sobrecomision ? @"\boxtimes" : @"\Box")}$ Sobre comisión\\")
+                .ToString();
         }
 
         /// <summary>
@@ -247,18 +267,18 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
             var moneda = anexo.DatosEspecificos.Moneda;
             indice = plantilla.FindIndex(linea => linea.Contains("<MONEDA>"), indice);
             plantilla[indice] =
-                $@"{(moneda.Contains("NACIONAL") ? @"$\boxtimes$" : @"$\Box$")} Pesos Mexicanos (MXP)\\{newLine}"
-                + $@"\indent {(moneda.Contains("AMERICANO") ? @"$\boxtimes$" : @"$\Box$")} Dólares (USD)\\{newLine}";
+                $@"${(moneda.Contains("NACIONAL") ? @"\boxtimes" : @"\Box")}$ Pesos Mexicanos (MXP)\\{newLine}"
+                + $@"\indent ${(moneda.Contains("AMERICANO") ? @"\boxtimes" : @"\Box")}$ Dólares (USD)\\{newLine}";
 
             // Forma de Pago del Asegurado
             var formaPago = anexo.DatosEspecificos.FormaPago;
             indice = plantilla.FindIndex(linea => linea.Contains("<FORMA-PAGO-ASEGURADO>"), indice);
             plantilla[indice] =
-                $@"{(formaPago == "ANUAL" ? @"$\boxtimes$" : @"$\Box$")} Anual\\{newLine}"
-                + $@"\indent {(formaPago == "CONTADO" ? @"$\boxtimes$" : @"$\Box$")} Contado\\{newLine}"
-                + $@"\indent {(formaPago == "SEMESTRAL" ? @"$\boxtimes$" : @"$\Box$")} Semestral\\{newLine}"
-                + $@"\indent {(formaPago == "TRIMESTRAL" ? @"$\boxtimes$" : @"$\Box$")} Trimestral\\{newLine}"
-                + $@"\indent {(formaPago == "MENSUAL" ? @"$\boxtimes$" : @"$\Box$")} Mensual\\{newLine}";
+                $@"${(formaPago == "ANUAL" ? @"\boxtimes" : @"\Box")}$ Anual\\{newLine}"
+                + $@"\indent ${(formaPago == "CONTADO" ? @"\boxtimes" : @"\Box")}$ Contado\\{newLine}"
+                + $@"\indent ${(formaPago == "SEMESTRAL" ? @"\boxtimes" : @"\Box")}$ Semestral\\{newLine}"
+                + $@"\indent ${(formaPago == "TRIMESTRAL" ? @"\boxtimes$" : @"\Box")}$ Trimestral\\{newLine}"
+                + $@"\indent ${(formaPago == "MENSUAL" ? @"\boxtimes$" : @"\Box")}$ Mensual\\{newLine}";
 
             // Garantía de Pago
             var garantiaPago = anexo.DatosEspecificos.GarantiaPago;
@@ -266,24 +286,28 @@ namespace WSEmision.Models.Business.Extensions.Coaseguro
             indice = plantilla.FindIndex(linea => linea.Contains("<GARANTIA-PAGO>"), indice);
 
             plantilla[indice] =
-                $@"{(son30Dias ? @"$\boxtimes$" : @"$\Box$")} De acuerdo a la Ley Sobre el Contrato de Seguro\\{newLine}"
-                + $@"\indent {(!son30Dias ? @"$\boxtimes$" : @"$\Box$")} Otro (especificar): \underline{{{(son30Dias ? @"\hspace{5cm}" : garantiaPago)}}}\\{newLine}";
+                $@"${(son30Dias ? @"\boxtimes" : @"\Box")}$ De acuerdo a la Ley Sobre el Contrato de Seguro\\{newLine}"
+                + $@"\indent ${(!son30Dias ? @"\boxtimes" : @"\Box")}$ Otro (especificar): \underline{{{(son30Dias ? @"\hspace{5cm}" : garantiaPago)}}}\\{newLine}";
 
             // Método de Pago
             var metodoPago = anexo.DatosEspecificos.MetodoPago;
             var esEstadoCuenta = metodoPago == "Estado de Cuenta";
             indice = plantilla.FindIndex(linea => linea.Contains("<METODO-PAGO>"), indice);
             plantilla[indice] =
-                $@"{(esEstadoCuenta ? @"$\boxtimes$" : @"$\Box$")} {metodoPago}\\{newLine}"
-                + $@"\indent {(!esEstadoCuenta ? @"$\boxtimes$" : @"$\Box$")} Otro (especificar): \underline{{{(esEstadoCuenta ? @"\hspace{5cm}" : metodoPago)}}} \\{newLine}";
+                $@"${(esEstadoCuenta ? @"\boxtimes" : @"\Box")}$ {metodoPago}\\{newLine}"
+                + $@"\indent ${(!esEstadoCuenta ? @"\boxtimes" : @"\Box")}$ Otro (especificar): \underline{{{(esEstadoCuenta ? @"\hspace{5cm}" : metodoPago)}}} \\{newLine}";
 
             // Pago de Comisión al Agente
             var comisionAgente = anexo.DatosEspecificos.PagoComisionAgente;
             var esLider100 = comisionAgente.Contains("100%");
             indice = plantilla.FindIndex(linea => linea.Contains("<PAGO-COMISION-AGENTE>"), indice);
             plantilla[indice] =
-                $@"{(esLider100 ? @"$\boxtimes$" : @"$\Box$")} La COASEGURADORA LÍDER paga el 100 \%\\{newLine}"
-                + $@"\indent {(!esLider100 ? @"$\boxtimes$" : @"$\Box$")} Cada COASEGURADORA paga su participación \\{newLine}";
+                $@"${(esLider100 ? @"\boxtimes" : @"\Box")}$ La COASEGURADORA LÍDER paga el 100 \%\\{newLine}"
+                + $@"\indent ${(!esLider100 ? @"\boxtimes" : @"\Box")}$ Cada COASEGURADORA paga su participación \\{newLine}";
+
+            // Conceptos de Pago de Comisión al Agente
+            indice = plantilla.FindIndex(linea => linea.Contains("<CONCEPTOS-PAGO-COMISION-AGENTE>"), indice);
+            plantilla[indice] = ObtenerConceptosPagoComisionAgenteAnexo(anexo);
 
             // Fees
             indice = plantilla.FindIndex(linea => linea.Contains("<TABLA-ANEXO-FEE>"), indice);

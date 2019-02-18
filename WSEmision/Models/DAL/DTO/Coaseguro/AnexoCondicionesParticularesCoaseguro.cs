@@ -154,6 +154,22 @@ namespace WSEmision.Models.DAL.DTO.Coaseguro
         public string PagoComisionAgente { get; set; }
 
         /// <summary>
+        /// Indica si existe el concepto de Prima Neta en el pago
+        /// de comisión al agente.
+        /// </summary>
+        public bool PrimaNetaComisionAgente { get; set; }
+
+        /// <summary>
+        /// Indica si existe un recargo por pago fraccionado.
+        /// </summary>
+        public bool RecargoPagoFraccionado { get; set; }
+
+        /// <summary>
+        /// Indica si existe una comisión extra para el agente.
+        /// </summary>
+        public bool SobreComision { get; set; }
+
+        /// <summary>
         /// La forma de pago del siniestro por parte del líder.
         /// </summary>
         public string PagoSiniestro { get; set; }
