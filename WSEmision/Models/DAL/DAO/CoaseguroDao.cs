@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -13,9 +14,26 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
     /// <summary>
     /// Funciones de acceso a base de datos para el módulo de Coaseguro.
     /// </summary>
-    public class CoaseguroDao
+    public class CoaseguroDao : IDisposable
     {
-        private static string entorno = ConfigurationManager.AppSettings["EntornoBD"];
+        /// <summary>
+        /// El nombre del entorno de base de datos a utilizar.
+        /// </summary>
+        private string entorno;
+
+        /// <summary>
+        /// La conexión hacia la base de datos.
+        /// </summary>
+        private EmisionContext db;
+
+        /// <summary>
+        /// Genera una nueva conexión a la base de datos.
+        /// </summary>
+        public CoaseguroDao()
+        {
+            entorno = ConfigurationManager.AppSettings["EntornoBD"];
+            db = new EmisionContext(entorno);
+        }
 
         /// <summary>
         /// Ejecuta el procedimiento sp_EncabezadoReportesEmision()
@@ -24,33 +42,30 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// <param name="idPv">El Id de la póliza a buscar.</param>
         /// <returns>Una nueva instancia de <see cref="EncabezadoReportesEmisionResultSet"/>
         /// con los datos requeridos.</returns>
-        public static EncabezadoReportesEmisionResultSet ObtenerEncabezado(int idPv)
+        public EncabezadoReportesEmisionResultSet ObtenerEncabezado(int idPv)
         {
             EncabezadoReportesEmisionResultSet rs;
+            var cmd = db.Database.Connection.CreateCommand();
+            var paramIdPv = cmd.CreateParameter();
 
-            using (var db = new EmisionContext(entorno)) {
-                var cmd = db.Database.Connection.CreateCommand();
-                var paramIdPv = cmd.CreateParameter();
+            cmd.CommandText = "EXEC sp_EncabezadoReportesEmision @IdPv";
+            paramIdPv.ParameterName = "@IdPv";
+            paramIdPv.Value = idPv;
+            cmd.Parameters.Add(paramIdPv);
 
-                cmd.CommandText = "EXEC sp_EncabezadoReportesEmision @IdPv";
-                paramIdPv.ParameterName = "@IdPv";
-                paramIdPv.Value = idPv;
-                cmd.Parameters.Add(paramIdPv);
+            try {
+                db.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+                var context = (db as IObjectContextAdapter).ObjectContext;
 
-                try {
-                    db.Database.Connection.Open();
-                    var reader = cmd.ExecuteReader();
-                    var context = (db as IObjectContextAdapter).ObjectContext;
-
-                    rs = context
-                        .Translate<EncabezadoReportesEmisionResultSet>(reader)
-                        .FirstOrDefault() ?? new EncabezadoReportesEmisionResultSet();
-                } catch {
-                    // TODO: Posible Log.
-                    throw;
-                } finally {
-                    db.Database.Connection.Close();
-                }
+                rs = context
+                    .Translate<EncabezadoReportesEmisionResultSet>(reader)
+                    .FirstOrDefault() ?? new EncabezadoReportesEmisionResultSet();
+            } catch {
+                // TODO: Posible Log.
+                throw;
+            } finally {
+                db.Database.Connection.Close();
             }
 
             return rs;
@@ -63,38 +78,35 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// <param name="idPv">El Id de la póliza a buscar.</param>
         /// <returns>Una nueva instancia de <see cref="CedulaParticipacionCoaseguroResultSet"/>
         /// con los datos requeridos.</returns>
-        public static CedulaParticipacionCoaseguroResultSet ObtenerCedulaParticipacion(int idPv)
+        public CedulaParticipacionCoaseguroResultSet ObtenerCedulaParticipacion(int idPv)
         {
             var rs = new CedulaParticipacionCoaseguroResultSet();
+            var cmd = db.Database.Connection.CreateCommand();
+            var paramIdPv = cmd.CreateParameter();
 
-            using (var db = new EmisionContext(entorno)) {
-                var cmd = db.Database.Connection.CreateCommand();
-                var paramIdPv = cmd.CreateParameter();
+            cmd.CommandText = "EXEC sp_CedulaParticipacionCoaseguro @IdPv";
+            paramIdPv.ParameterName = "@IdPv";
+            paramIdPv.Value = idPv;
+            cmd.Parameters.Add(paramIdPv);
 
-                cmd.CommandText = "EXEC sp_CedulaParticipacionCoaseguro @IdPv";
-                paramIdPv.ParameterName = "@IdPv";
-                paramIdPv.Value = idPv;
-                cmd.Parameters.Add(paramIdPv);
+            try {
+                db.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+                var context = (db as IObjectContextAdapter).ObjectContext;
 
-                try {
-                    db.Database.Connection.Open();
-                    var reader = cmd.ExecuteReader();
-                    var context = (db as IObjectContextAdapter).ObjectContext;
+                rs.DatosGenerales = context
+                    .Translate<DatosGeneralesCedulaRS>(reader)
+                    .FirstOrDefault() ?? new DatosGeneralesCedulaRS();
 
-                    rs.DatosGenerales = context
-                        .Translate<DatosGeneralesCedulaRS>(reader)
-                        .FirstOrDefault() ?? new DatosGeneralesCedulaRS();
-
-                    reader.NextResult();
-                    rs.Coaseguradoras = context
-                        .Translate<CoaseguradorasCedulaRS>(reader)
-                        .ToList();
-                } catch {
-                    // TODO: Posible Log.
-                    throw;
-                } finally {
-                    db.Database.Connection.Close();
-                }
+                reader.NextResult();
+                rs.Coaseguradoras = context
+                    .Translate<CoaseguradorasCedulaRS>(reader)
+                    .ToList();
+            } catch {
+                // TODO: Posible Log.
+                throw;
+            } finally {
+                db.Database.Connection.Close();
             }
 
             return rs;
@@ -107,53 +119,50 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// <param name="idPv">El Id de la póliza a buscar.</param>
         /// <returns>>Una nueva instancia de <see cref=""/>
         /// con los datos requeridos.</returns>
-        public static AnexoCondicionesParticularesCoaseguroResultSet ObtenerAnexoCondicionesParticulares(int idPv)
+        public AnexoCondicionesParticularesCoaseguroResultSet ObtenerAnexoCondicionesParticulares(int idPv)
         {
             var rs = new AnexoCondicionesParticularesCoaseguroResultSet();
+            var cmd = db.Database.Connection.CreateCommand();
+            var paramIdPv = cmd.CreateParameter();
 
-            using (var db = new EmisionContext(entorno)) {
-                var cmd = db.Database.Connection.CreateCommand();
-                var paramIdPv = cmd.CreateParameter();
+            cmd.CommandText = "EXEC sp_AnexoCondicionesParticularesCoaseguro @IdPv";
+            paramIdPv.ParameterName = "@IdPv";
+            paramIdPv.Value = idPv;
+            cmd.Parameters.Add(paramIdPv);
 
-                cmd.CommandText = "EXEC sp_AnexoCondicionesParticularesCoaseguro @IdPv";
-                paramIdPv.ParameterName = "@IdPv";
-                paramIdPv.Value = idPv;
-                cmd.Parameters.Add(paramIdPv);
+            try {
+                db.Database.Connection.Open();
+                var reader = cmd.ExecuteReader();
+                var context = (db as IObjectContextAdapter).ObjectContext;
 
-                try {
-                    db.Database.Connection.Open();
-                    var reader = cmd.ExecuteReader();
-                    var context = (db as IObjectContextAdapter).ObjectContext;
+                rs.DatosGenerales = context
+                    .Translate<DatosGeneralesAnexoRS>(reader)
+                    .FirstOrDefault() ?? new DatosGeneralesAnexoRS();
 
-                    rs.DatosGenerales = context
-                        .Translate<DatosGeneralesAnexoRS>(reader)
-                        .FirstOrDefault() ?? new DatosGeneralesAnexoRS();
+                // *** Posibles efectos secundarios
+                // Translate<T>() por alguna razón no obtiene el campo 'Vigencia' del DbDataReader.
+                // Por lo tanto, se obtiene el valor manualmente y se asigna al result set.
+                rs.DatosGenerales.FechaVigencia = reader["Vigencia"] as DateTime?;
 
-                    // *** Posibles efectos secundarios
-                    // Translate<T>() por alguna razón no obtiene el campo 'Vigencia' del DbDataReader.
-                    // Por lo tanto, se obtiene el valor manualmente y se asigna al result set.
-                    rs.DatosGenerales.FechaVigencia = reader["Vigencia"] as System.DateTime?;
+                reader.NextResult();
+                rs.GMX = context
+                    .Translate<GMXAnexoRS>(reader)
+                    .FirstOrDefault() ?? new GMXAnexoRS();
 
-                    reader.NextResult();
-                    rs.GMX = context
-                        .Translate<GMXAnexoRS>(reader)
-                        .FirstOrDefault() ?? new GMXAnexoRS();
+                reader.NextResult();
+                rs.Coaseguradoras = context
+                    .Translate<CoaseguradorasAnexoRS>(reader)
+                    .ToList();
 
-                    reader.NextResult();
-                    rs.Coaseguradoras = context
-                        .Translate<CoaseguradorasAnexoRS>(reader)
-                        .ToList();
-
-                    reader.NextResult();
-                    rs.DatosEspecificos = context
-                        .Translate<DatosEspecificosAnexoRS>(reader)
-                        .FirstOrDefault() ?? new DatosEspecificosAnexoRS();
-                } catch {
-                    // TODO: Posible log
-                    throw;
-                } finally {
-                    db.Database.Connection.Close();
-                }
+                reader.NextResult();
+                rs.DatosEspecificos = context
+                    .Translate<DatosEspecificosAnexoRS>(reader)
+                    .FirstOrDefault() ?? new DatosEspecificosAnexoRS();
+            } catch {
+                // TODO: Posible log
+                throw;
+            } finally {
+                db.Database.Connection.Close();
             }
 
             return rs;
@@ -164,18 +173,16 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// ser incluida en una etiqueta HTML &lt;select&gt;.
         /// </summary>
         /// <returns>Una colección de objectos <see cref="SelectListItem"/></returns>
-        public static IEnumerable<SelectListItem> ObtenerRamosComerciales()
+        public IEnumerable<SelectListItem> ObtenerRamosComerciales()
         {
-            using (var db = new EmisionContext(entorno)) {
-                return db.tramo
-                    .Where(ramo => ramo.cod_ramo <= 102M)
-                    .AsEnumerable()
-                    .Select(ramo => new SelectListItem {
-                        Text = $"{ramo.txt_desc} ({ramo.cod_ramo})",
-                        Value = ramo.cod_ramo.ToString()
-                    })
-                    .ToList();
-            }
+            return db.tramo
+                .Where(ramo => ramo.cod_ramo <= 102M)
+                .AsEnumerable()
+                .Select(ramo => new SelectListItem {
+                    Text = $"{ramo.txt_desc} ({ramo.cod_ramo})",
+                    Value = ramo.cod_ramo.ToString()
+                })
+                .ToList();
         }
 
         /// <summary>
@@ -183,17 +190,15 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// en una etiqueta HTML &lt;select&gt;.
         /// </summary>
         /// <returns>Una colección de objetos <see cref="SelectListItem"/></returns>
-        public static IEnumerable<SelectListItem> ObtenerSucursales()
+        public IEnumerable<SelectListItem> ObtenerSucursales()
         {
-            using (var db = new EmisionContext(entorno)) {
-                return db.tsuc
-                    .AsEnumerable()
-                    .Select(tsuc => new SelectListItem {
-                        Text = $"{tsuc.txt_nom_suc} ({tsuc.cod_suc})",
-                        Value = tsuc.cod_suc.ToString()
-                    })
-                    .ToList();
-            }
+            return db.tsuc
+                .AsEnumerable()
+                .Select(tsuc => new SelectListItem {
+                    Text = $"{tsuc.txt_nom_suc} ({tsuc.cod_suc})",
+                    Value = tsuc.cod_suc.ToString()
+                })
+                .ToList();
         }
 
         /// <summary>
@@ -202,17 +207,15 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// </summary>
         /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
         /// <returns>True si el registro existe con esas llaves primarias. De lo contrario, regresa False.</returns>
-        public static bool ExistePolizaCoaseguro(ConsultarPolizaViewModel model)
+        public bool ExistePolizaCoaseguro(ConsultarPolizaViewModel model)
         {
-            using (var db = new EmisionContext(entorno)) {
-                return db.pv_header
-                    .Any(header =>
-                        header.cod_suc == model.CodSucursal
-                        && header.cod_ramo == model.CodRamo
-                        && header.nro_pol == model.NroPoliza
-                        && header.aaaa_endoso == model.Sufijo
-                        && header.nro_endoso == model.Endoso);
-            }
+            return db.pv_header
+                .Any(header =>
+                    header.cod_suc == model.CodSucursal
+                    && header.cod_ramo == model.CodRamo
+                    && header.nro_pol == model.NroPoliza
+                    && header.aaaa_endoso == model.Sufijo
+                    && header.nro_endoso == model.Endoso);
         }
 
         /// <summary>
@@ -220,19 +223,17 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// </summary>
         /// <param name="model">El Vista Modelo con las llaves primarias del registro a buscar.</param>
         /// <returns>El [id_pv] de la póliza indicada.</returns>
-        public static int ObtenerIdPv(ConsultarPolizaViewModel model)
+        public int ObtenerIdPv(ConsultarPolizaViewModel model)
         {
-            using (var db = new EmisionContext(entorno)) {
-                return db
-                    .pv_header
-                    .FirstOrDefault(header =>
-                        header.cod_suc == model.CodSucursal
-                        && header.cod_ramo == model.CodRamo
-                        && header.nro_pol == model.NroPoliza
-                        && header.aaaa_endoso == model.Sufijo
-                        && header.nro_endoso == model.Endoso)
-                    .id_pv;
-            }
+            return db
+                .pv_header
+                .FirstOrDefault(header =>
+                    header.cod_suc == model.CodSucursal
+                    && header.cod_ramo == model.CodRamo
+                    && header.nro_pol == model.NroPoliza
+                    && header.aaaa_endoso == model.Sufijo
+                    && header.nro_endoso == model.Endoso)
+                .id_pv;
         }
 
         /// <summary>
@@ -240,13 +241,32 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
         /// </summary>
         /// <param name="idPv">El Id de la póliza a consultar.</param>
         /// <returns>El código de la tabla [ttipo_mov] a la que pertenece la póliza.</returns>
-        public static decimal ObtenerTipoMovimiento(int idPv)
+        public decimal ObtenerTipoMovimiento(int idPv)
         {
-            using (var db = new EmisionContext(entorno)) {
-                return db.pv_header
-                    .FirstOrDefault(header => header.id_pv == idPv)
-                    .cod_operacion;
+            return db.pv_header
+                .FirstOrDefault(header => header.id_pv == idPv)
+                .cod_operacion;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue) {
+                if (disposing) {
+                    db.Dispose();
+                }
+
+                disposedValue = true;
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

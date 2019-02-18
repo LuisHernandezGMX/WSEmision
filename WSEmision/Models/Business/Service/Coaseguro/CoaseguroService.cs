@@ -112,28 +112,29 @@ namespace WSEmision.Models.Business.Service.Coaseguro
         /// del tipo requerido.
         /// </summary>
         /// <param name="idPv">El Id de la póliza en coaseguro.</param>
-        /// <param name="rutaEjecutable"></param>
-        /// <param name="inputDir"></param>
-        /// <returns></returns>
+        /// <param name="tipo">El tipo de reporte que se quiere generar.</param>
+        /// <returns>Una nueva instancia de <see cref="LatexLectorEscritor"/>.</returns>
         private static LatexLectorEscritor ObtenerLectorEscritor(int idPv, TipoReporteCoaseguro tipo)
         {
-            var encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
+            using (var dao = new CoaseguroDao()) {
+                var encabezado = dao.ObtenerEncabezado(idPv);
 
-            switch (tipo) {
-                case TipoReporteCoaseguro.CedulaParticipacion:
-                    var datosCedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
-                    return new CedulaLectorEscritor(datosCedula, encabezado, rutaEjecutable, inputDir);
+                switch (tipo) {
+                    case TipoReporteCoaseguro.CedulaParticipacion:
+                        var datosCedula = dao.ObtenerCedulaParticipacion(idPv);
+                        return new CedulaLectorEscritor(datosCedula, encabezado, rutaEjecutable, inputDir);
 
-                case TipoReporteCoaseguro.AnexoCondicionesParticulares:
-                    var datosAnexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
-                    return new AnexoLectorEscritor(datosAnexo, encabezado, rutaEjecutable, inputDir);
+                    case TipoReporteCoaseguro.AnexoCondicionesParticulares:
+                        var datosAnexo = dao.ObtenerAnexoCondicionesParticulares(idPv);
+                        return new AnexoLectorEscritor(datosAnexo, encabezado, rutaEjecutable, inputDir);
 
-                case TipoReporteCoaseguro.Ambos:
-                default:
-                    var cedula = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
-                    var anexo = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+                    case TipoReporteCoaseguro.Ambos:
+                    default:
+                        var cedula = dao.ObtenerCedulaParticipacion(idPv);
+                        var anexo = dao.ObtenerAnexoCondicionesParticulares(idPv);
 
-                    return new CedulaAnexoLectorEscritor(cedula, anexo, encabezado, rutaEjecutable, inputDir);
+                        return new CedulaAnexoLectorEscritor(cedula, anexo, encabezado, rutaEjecutable, inputDir);
+                }
             }
         }
     }

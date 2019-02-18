@@ -3,16 +3,17 @@
 using WSEmision.Models.DAL.DAO.Coaseguro;
 using WSEmision.Models.DAL.ViewModels.Coaseguro;
 
-
 namespace WSEmision.Controllers
 {
     public class CoaseguroController : Controller
     {
+        private CoaseguroDao dao = new CoaseguroDao();
+
         [HttpGet]
         public ViewResult Index()
         {
-            ViewBag.CodRamo = CoaseguroDao.ObtenerRamosComerciales();
-            ViewBag.CodSucursal = CoaseguroDao.ObtenerSucursales();
+            ViewBag.CodRamo = dao.ObtenerRamosComerciales();
+            ViewBag.CodSucursal = dao.ObtenerSucursales();
 
             return View();
         }
@@ -22,28 +23,37 @@ namespace WSEmision.Controllers
         public ViewResult ConsultarPoliza(ConsultarPolizaViewModel model)
         {
             if (ModelState.IsValid) {
-                if (CoaseguroDao.ExistePolizaCoaseguro(model)) {
-                    int idPv = CoaseguroDao.ObtenerIdPv(model);
-                    var tipoMovimiento = CoaseguroDao.ObtenerTipoMovimiento(idPv);
+                if (dao.ExistePolizaCoaseguro(model)) {
+                    int idPv = dao.ObtenerIdPv(model);
+                    var tipoMovimiento = dao.ObtenerTipoMovimiento(idPv);
 
                     if (tipoMovimiento < 2M || tipoMovimiento > 3M) {
                         ModelState.AddModelError("ValidacionGeneral", "Esta póliza no se encuentra en coaseguro.");
                     } else {
                         ViewBag.IdPv = idPv;
                         ViewBag.TipoMovimiento = tipoMovimiento;
-                        ViewBag.Encabezado = CoaseguroDao.ObtenerEncabezado(idPv);
-                        ViewBag.CedulaParticipacion = CoaseguroDao.ObtenerCedulaParticipacion(idPv);
-                        ViewBag.AnexoCondiciones = CoaseguroDao.ObtenerAnexoCondicionesParticulares(idPv);
+                        ViewBag.Encabezado = dao.ObtenerEncabezado(idPv);
+                        ViewBag.CedulaParticipacion = dao.ObtenerCedulaParticipacion(idPv);
+                        ViewBag.AnexoCondiciones = dao.ObtenerAnexoCondicionesParticulares(idPv);
                     }
                 } else {
                     ModelState.AddModelError("ValidacionGeneral", "No se encontró ninguna póliza con esos parámetros.");
                 }
             }
 
-            ViewBag.CodRamo = CoaseguroDao.ObtenerRamosComerciales();
-            ViewBag.CodSucursal = CoaseguroDao.ObtenerSucursales();
+            ViewBag.CodRamo = dao.ObtenerRamosComerciales();
+            ViewBag.CodSucursal = dao.ObtenerSucursales();
 
             return View("Index", model);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) {
+                dao.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
