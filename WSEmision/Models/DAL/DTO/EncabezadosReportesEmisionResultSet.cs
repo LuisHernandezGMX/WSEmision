@@ -1,4 +1,4 @@
-﻿namespace WSEmision.Models.DAL.DTO.Coaseguro
+﻿namespace WSEmision.Models.DAL.DTO
 {
     /// <summary>
     /// Representa el conjunto de resultados del

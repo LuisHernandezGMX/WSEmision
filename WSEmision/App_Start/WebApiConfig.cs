@@ -18,6 +18,12 @@ namespace WSEmision
             );
 
             config.Routes.MapHttpRoute(
+                name: "CaratulaDanosApi",
+                routeTemplate: "api/danos/{action}/{idPv}",
+                defaults: new { controller = "CaratulaDanosWS" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }

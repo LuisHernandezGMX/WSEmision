@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 
+using WSEmision.Models.DAL.DTO;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 using WSEmision.Models.DAL.Entities;
 using WSEmision.Models.DAL.ViewModels.Coaseguro;

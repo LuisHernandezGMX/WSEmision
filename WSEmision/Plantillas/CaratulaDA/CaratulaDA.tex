@@ -1,0 +1,188 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage[english,spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fontspec}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{tikzpagenodes}
+\usepackage{eso-pic}
+\usepackage{hyperref}
+\usepackage{transparent}
+\usepackage[letterpaper,top=1.8cm,bottom=7cm,left=1cm,right=1cm,marginparwidth=1.75cm]{geometry}
+
+\AddToShipoutPictureBG{%
+    % Imagen GMX transparente de fondo
+    \begin{tikzpicture}[remember picture, overlay] \node[opacity=0.2,inner sep=0pt] at (current page.center){
+        \makebox[\textwidth][c]{
+            \raisebox{-1.45\height}{
+                \includegraphics[height=15cm]{LogoGMX.png}
+            }
+        }
+    };
+    \end{tikzpicture}
+    
+    % Margen de páginas
+    \begin{tikzpicture}[remember picture,overlay]
+    \node[inner sep=0pt,text width=\linewidth+2ex+\pgflinewidth,anchor=center] (H) at (current page header area.south) {%
+    
+    };
+    \draw ([shift={(-1ex,-1ex)}]current page text area.south west) rectangle
+          (H.north east);
+    \end{tikzpicture}
+}
+
+\setmainfont{Arial}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\setlength{\headheight}{5cm}
+\pagestyle{fancy}
+\fancyhf{}
+
+% Encabezado
+\rfoot{}
+\rhead{
+    \begin{center}
+        \begin{tabularx}{\textwidth}{X>{\footnotesize}l}
+            \multirow{5}{5cm}{\includegraphics[height=2.5cm]{LogoGMX.png}} & \textbf{Grupo Mexicano de Seguros, S.A. de C.V.}\\
+             & Tecoyotitla 412 Edificio GMX\\
+             & Col. Ex Hacienda de Guadalupe Chimalistac\\
+             & Ciudad de México, 01050 Tel. (55) 5480 4000\\
+             &\\&\\
+        \end{tabularx}
+        \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
+            \hline
+            <POL-ENDO> <TIPO-POLIZA>\\
+            <DESC-RAMO-COM>\\
+            IDENTIFICADOR DE PÓLIZA: <SUC-COD-RAMO-POLIZA-ENDO-SUF>\\
+            \hline
+        \end{tabularx}
+    \end{center}
+}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0cm}
+
+\begin{document}
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|Y|Y|Y|Y|Y|Y|}
+        \hline
+        \rowcolor[gray]{0.8} \multicolumn{2}{|c|}{\textbf{OFICINA}} & \textbf{PRODUCTO} & \textbf{PÓLIZA} & \textbf{ENDOSO} & \textbf{RENOVACIÓN}\\\hline
+        <COD-SUC> & <SUC> & <COD-RAMO> & <POLIZA> & <ENDO> & <SUF>\\\hline
+        \multicolumn{6}{|p{0.979\textwidth}|}{Grupo Mexicano de Seguros, S.A. de C.V., en adelante mencionada como GMX SEGUROS, asegura de acuerdo con las condiciones generales y particulares de esta póliza a la persona física o moral denominado en adelante El Asegurado:}\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\hspace{1cm}\\
+\begin{tabularx}{0.5\textwidth}{|l|X|}
+    \hline
+    \textbf{Contratante} & <NOMBRE>\\
+    \textbf{Domicilio} & <CALLE>, <NUMERO>, <INTERIOR>, <COLONIA>, <POBLACION> <CIUDAD> <ESTADO> <CP>\\
+    \textbf{Entidad/C.P.} & <ESTADO> <CP>\\
+    \hline
+\end{tabularx}
+\begin{tabularx}{0.5\textwidth}{|l|X|}
+    \hline
+    \textbf{RFC} & <RFC>\\\hline
+    \multicolumn{2}{|l|}{\textbf{Fecha de Nacimiento / Constitución}}\\
+    \multicolumn{2}{|c|}{}\\
+    \multicolumn{2}{|l|}{<FECHA-NACIMIENTO>}\\
+    \multicolumn{2}{|c|}{}\\
+    \hline
+\end{tabularx}
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Agente} & <AGENTES>\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\hspace{1cm}\\
+\begin{tabularx}{0.5\textwidth}{|l|X|}
+    \hline
+    \textbf{Vigencia} & <VIGENCIA> Días\\
+    \textbf{Desde} & <DIA1> <MES1> <ANIO1> <HORADESDE> de la Ciudad de México\\
+    \textbf{Hasta} & <DIA2> <MES2> <ANIO2> <HORAHASTA> de la Ciudad de México\\
+    \hline
+\end{tabularx}
+\begin{tabularx}{0.5\textwidth}{|l|X|}
+    \hline
+    \textbf{Fecha Emisión} & <DIA> <MES> <ANIO>\\
+    &\\
+    \textbf{Moneda} & <MONEDA>\\
+    &\\
+    \textbf{Forma de Pago} & <PAGO>\\
+    \hline
+\end{tabularx}
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|X|}
+        \hline
+        \textbf{Descripción de Bienes y Riesgos Cubiertos:}\\
+        Los bienes cubiertos, ubicación, giro o actividad, sumas aseguradas, deducibles y, en su caso, coaseguro se describen en la especificación anexa a esta póliza.\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|l|Y|Y|Y|Y|Y|}
+        \hline
+        \rowcolor[gray]{0.8}  & \textbf{Prima Neta} & \textbf{Recargo} & \textbf{Derecho} & \textbf{I.V.A.} &\textbf{Total}\\\hline
+        \textbf{Prima} & <PRIMA> & <IMPORTEFRAC> & <GASTOS> & <IMPORTEIVA> & <TOTAL>\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\begin{center}
+    \begin{tabularx}{\textwidth}{|X|}
+        \hline
+        \textbf{\large <DESC-POR-RAMO>}\\
+        \textbf{Artículo. 25.- Si el contenido de la póliza o sus modificaciones no concordaren con la oferta, el Asegurado podrá pedir la rectificación correspondiente dentro de los treinta días que sigan al día que reciba la póliza. Transcurrido este plazo se considerarán aceptadas las estipulaciones de la póliza o de sus modificaciones.}\\
+        \hline
+    \end{tabularx}
+\end{center}
+
+\textbf{En términos de lo cual Grupo Mexicano de Seguros, S.A. de C.V., firma la presente póliza en la Ciudad de México. Esta póliza no es un comprobante de pago, por lo que es necesario exigir su recibo al liquidar la prima.}
+
+\vspace{1cm}
+\begin{center}
+    \begin{tabularx}{\textwidth}{Xr}
+        &\underline{\hspace{6cm}}\\
+        &\textbf{Firma del funcionario autorizado}\\
+    \end{tabularx}
+\end{center}
+
+\newpage
+
+GMX Seguros, pone a disposición del asegurado sus derechos y obligaciones, así como las coberturas, exclusiones, restricciones que forman parte de este Contrato de Seguro que se encuentran contenidos en esta póliza y en toda la documentación que forman parte integral del Contrato de Seguro y pueden ser consultados en \textcolor{blue}{\underline{\href{www.gmx.com.mx}{www.gmx.com.mx}}}.\\
+
+Las condiciones generales aplicables al presente seguro se entregan al Asegurado junto con esta póliza, de igual modo se encuentran a su disposición en las oficinas de GMX Seguros en la dirección establecida en la presente.\\
+
+Asimismo, el asegurado reconoce que la elección de las coberturas amparadas, deducibles y límites máximos de responsabilidad, han sido responsabilidad suya en su carácter de asegurado y/o contratante, además de que el monto de las primas es de su conocimiento, por lo que acepta que su elección no fue influenciada por la aseguradora en forma alguna, además de que sabe y entiende que la Institución cuenta con otras coberturas a las elegidas que no fueron de su interés.\\
+
+GMX Seguros pone a su alcance, para una consulta más clara y sencilla, los preceptos legales más utilizados en esta póliza en la página web \textcolor{blue}{\underline{\href{www.gmx.com.mx}{www.gmx.com.mx}}}.\\
+
+En GMX Seguros, ponemos a su disposición en caso de alguna consulta, reclamación o aclaración relacionada con su Seguro, nuestra \textbf{Unidad Especializada de Atención a Usuarios (UNE)}, ubicada en Tecoyotitla número 412, Edificio GMX, colonia Ex Hacienda de Guadalupe Chimalistac, Código Postal 01050, Delegación Álvaro Obregón, Ciudad de México, o si lo prefiere comunicarse al teléfono 01 (800) 718 89 46 y al (55) 54 80 40 00, en un horario de atención de lunes a jueves de 8:30 a 17:30 horas y viernes de 8:30 a 15:30 horas, y al correo electrónico \textcolor{blue}{\underline{\href{unidad.especializada@gmx.com.mx}{unidad.especializada@gmx.com.mx}}}.\\
+
+En caso de dudas, quejas, reclamaciones o consultar información, podrá acudir a la \textbf{Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF)} con domicilio en Insurgentes Sur Número 762, Colonia Del Valle, Delegación Benito Juárez, Código Postal 03100, Ciudad de México, correo electrónico \textcolor{blue}{\underline{\href{asesoria@condusef.gob.mx}{asesoria@condusef.gob.mx}}}, teléfono 01 800 999 8080 y 5340 0999 o consultar la página electrónica en internet \textcolor{blue}{\underline{\href{www.condusef.gob.mx}{www.condusef.gob.mx}}}.\\
+
+\vspace{4cm}
+
+\noindent \textbf{Glosario de Abreviaturas}\\
+\begin{center}
+    \begin{tabularx}{\textwidth}{ll}
+        \textbf{C.P.} & Código Postal\\
+        \textbf{I.V.A.} & Impuesto al Valor Agregado\\
+        \textbf{R.C.} & Responsabilidad Civil\\
+        \textbf{R.F.C.} & Registro Federal de Contribuyentes\\
+        \textbf{S.M.E.} & Seguro Múltiple Empresarial\\        
+    \end{tabularx}
+\end{center}
+
+\end{document}
