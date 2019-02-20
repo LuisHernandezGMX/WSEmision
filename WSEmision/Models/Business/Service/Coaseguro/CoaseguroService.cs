@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 
 using WSEmision.Models.DAL.DAO.Coaseguro;
@@ -16,17 +17,17 @@ namespace WSEmision.Models.Business.Service.Coaseguro
         /// <summary>
         /// La ruta absoluta al directorio con las plantillas y ejecutables de LaTex (distribución MikTex).
         /// </summary>
-        private static string rutaLatex = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), "Latex");
+        private static string rutaLatex = ConfigurationManager.AppSettings["DirectorioLatex"];
 
         /// <summary>
         /// La ruta absoluta al compilador de LaTex.
         /// </summary>
-        private static string rutaEjecutable = Path.Combine(rutaLatex, @"MikTex\texmfs\install\miktex\bin\miktex-xelatex.exe");
+        private static string rutaEjecutable = ConfigurationManager.AppSettings["RutaXelatex"];
 
         /// <summary>
         /// La ruta absoluta al directorio de multimedia.
         /// </summary>
-        private static string inputDir = Path.Combine(rutaLatex, "media");
+        private static string inputDir = ConfigurationManager.AppSettings["DirectorioEntradaLatex"];
 
         /// <summary>
         /// Indica el tipo de reporte que se va a generar.
@@ -51,7 +52,6 @@ namespace WSEmision.Models.Business.Service.Coaseguro
             Ambos
         }
         #endregion Variables Privadas
-
 
         /// <summary>
         /// Genera el reporte PDF con la Cédula de Participación y el

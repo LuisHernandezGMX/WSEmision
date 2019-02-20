@@ -17,7 +17,7 @@
 
 \AddToShipoutPictureBG{%
     % Imagen GMX transparente de fondo
-    \begin{tikzpicture}[remember picture, overlay] \node[opacity=0.2,inner sep=0pt] at (current page.center){
+    \begin{tikzpicture}[remember picture, overlay] \node[opacity=0.1,inner sep=0pt] at (current page.center){
         \makebox[\textwidth][c]{
             \raisebox{-1.45\height}{
                 \includegraphics[height=15cm]{LogoGMX.png}
@@ -55,8 +55,8 @@
         \end{tabularx}
         \begin{tabularx}{\textwidth}{|>{\columncolor[gray]{0.8}\centering\arraybackslash}X|}
             \hline
-            <POL-ENDO> <TIPO-POLIZA>\\
-            <DESC-RAMO-COM>\\
+            <TIPO-ENDO> <TIPO-POLIZA>\\
+            <DESC-RAMO-COMERCIAL>\\
             IDENTIFICADOR DE PÓLIZA: <SUC-COD-RAMO-POLIZA-ENDO-SUF>\\
             \hline
         \end{tabularx}
@@ -71,7 +71,7 @@
     \begin{tabularx}{\textwidth}{|Y|Y|Y|Y|Y|Y|}
         \hline
         \rowcolor[gray]{0.8} \multicolumn{2}{|c|}{\textbf{OFICINA}} & \textbf{PRODUCTO} & \textbf{PÓLIZA} & \textbf{ENDOSO} & \textbf{RENOVACIÓN}\\\hline
-        <COD-SUC> & <SUC> & <COD-RAMO> & <POLIZA> & <ENDO> & <SUF>\\\hline
+        <COD-SUC> & <OFICINA> & <COD-RAMO> & <POLIZA> & <ENDO> & <SUF>\\\hline
         \multicolumn{6}{|p{0.979\textwidth}|}{Grupo Mexicano de Seguros, S.A. de C.V., en adelante mencionada como GMX SEGUROS, asegura de acuerdo con las condiciones generales y particulares de esta póliza a la persona física o moral denominado en adelante El Asegurado:}\\
         \hline
     \end{tabularx}
@@ -81,7 +81,7 @@
 \begin{tabularx}{0.5\textwidth}{|l|X|}
     \hline
     \textbf{Contratante} & <NOMBRE>\\
-    \textbf{Domicilio} & <CALLE>, <NUMERO>, <INTERIOR>, <COLONIA>, <POBLACION> <CIUDAD> <ESTADO> <CP>\\
+    \textbf{Domicilio} & <CALLE>, <NUMERO>, <INTERIOR>, <COLONIA>, <POBLACION>, <CIUDAD>, <ESTADO>, <CP>\\
     \textbf{Entidad/C.P.} & <ESTADO> <CP>\\
     \hline
 \end{tabularx}
@@ -107,13 +107,13 @@
 \begin{tabularx}{0.5\textwidth}{|l|X|}
     \hline
     \textbf{Vigencia} & <VIGENCIA> Días\\
-    \textbf{Desde} & <DIA1> <MES1> <ANIO1> <HORADESDE> de la Ciudad de México\\
-    \textbf{Hasta} & <DIA2> <MES2> <ANIO2> <HORAHASTA> de la Ciudad de México\\
+    \textbf{Desde} & <DIA1>/<MES1>/<ANO1> <HORADESDE> de la Ciudad de México\\
+    \textbf{Hasta} & <DIA2>/<MES2>/<ANO2> <HORAHASTA> de la Ciudad de México\\
     \hline
 \end{tabularx}
 \begin{tabularx}{0.5\textwidth}{|l|X|}
     \hline
-    \textbf{Fecha Emisión} & <DIA> <MES> <ANIO>\\
+    \textbf{Fecha Emisión} & <DIA>/<MES>/<ANO>\\
     &\\
     \textbf{Moneda} & <MONEDA>\\
     &\\
@@ -143,6 +143,7 @@
     \begin{tabularx}{\textwidth}{|X|}
         \hline
         \textbf{\large <DESC-POR-RAMO>}\\
+        \vspace{0.1cm}
         \textbf{Artículo. 25.- Si el contenido de la póliza o sus modificaciones no concordaren con la oferta, el Asegurado podrá pedir la rectificación correspondiente dentro de los treinta días que sigan al día que reciba la póliza. Transcurrido este plazo se considerarán aceptadas las estipulaciones de la póliza o de sus modificaciones.}\\
         \hline
     \end{tabularx}

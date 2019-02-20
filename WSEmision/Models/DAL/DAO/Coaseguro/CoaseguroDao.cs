@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 
-using WSEmision.Models.DAL.DTO;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 using WSEmision.Models.DAL.Entities;
 using WSEmision.Models.DAL.ViewModels.Coaseguro;
@@ -15,64 +13,8 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
     /// <summary>
     /// Funciones de acceso a base de datos para el módulo de Coaseguro.
     /// </summary>
-    public class CoaseguroDao : IDisposable
+    public class CoaseguroDao : EmisionDao
     {
-        /// <summary>
-        /// El nombre del entorno de base de datos a utilizar.
-        /// </summary>
-        private string entorno;
-
-        /// <summary>
-        /// La conexión hacia la base de datos.
-        /// </summary>
-        private EmisionContext db;
-
-        /// <summary>
-        /// Genera una nueva conexión a la base de datos, tomando
-        /// el entorno del archivo [web.config].
-        /// </summary>
-        public CoaseguroDao()
-        {
-            entorno = ConfigurationManager.AppSettings["EntornoBD"];
-            db = new EmisionContext(entorno);
-        }
-
-        /// <summary>
-        /// Ejecuta el procedimiento sp_EncabezadoReportesEmision()
-        /// y regresa toda la información de éste.
-        /// </summary>
-        /// <param name="idPv">El Id de la póliza a buscar.</param>
-        /// <returns>Una nueva instancia de <see cref="EncabezadoReportesEmisionResultSet"/>
-        /// con los datos requeridos.</returns>
-        public EncabezadoReportesEmisionResultSet ObtenerEncabezado(int idPv)
-        {
-            EncabezadoReportesEmisionResultSet rs;
-            var cmd = db.Database.Connection.CreateCommand();
-            var paramIdPv = cmd.CreateParameter();
-
-            cmd.CommandText = "EXEC sp_EncabezadoReportesEmision @IdPv";
-            paramIdPv.ParameterName = "@IdPv";
-            paramIdPv.Value = idPv;
-            cmd.Parameters.Add(paramIdPv);
-
-            try {
-                db.Database.Connection.Open();
-                var reader = cmd.ExecuteReader();
-                var context = (db as IObjectContextAdapter).ObjectContext;
-
-                rs = context
-                    .Translate<EncabezadoReportesEmisionResultSet>(reader)
-                    .FirstOrDefault() ?? new EncabezadoReportesEmisionResultSet();
-            } catch {
-                // TODO: Posible Log.
-                throw;
-            } finally {
-                db.Database.Connection.Close();
-            }
-
-            return rs;
-        }
-
         /// <summary>
         /// Ejecuta el procedimiento sp_CedulaParticipacionCoaseguro() y regresa
         /// toda la información de éste.
@@ -251,26 +193,5 @@ namespace WSEmision.Models.DAL.DAO.Coaseguro
                 .FirstOrDefault(header => header.id_pv == idPv)
                 .cod_operacion;
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue) {
-                if (disposing) {
-                    db.Dispose();
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
     }
 }

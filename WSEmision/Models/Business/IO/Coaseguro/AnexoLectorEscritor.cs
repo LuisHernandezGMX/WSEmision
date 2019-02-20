@@ -4,12 +4,12 @@ using WSEmision.Models.Business.Extensions.Coaseguro;
 using WSEmision.Models.DAL.DTO;
 using WSEmision.Models.DAL.DTO.Coaseguro;
 
-/// <summary>
-/// Lee y genera los reportes para la Cédula de Participación
-/// en Coaseguro y el Anexo de Condiciones Particulares
-/// en un solo archivo PDF.
 namespace WSEmision.Models.Business.IO.Coaseguro
 {
+    /// <summary>
+    /// Lee y genera el reporte para el Anexo de
+    /// Condiciones Particulares en un archivo PDF.
+    /// </summary>
     public class AnexoLectorEscritor : LatexLectorEscritor
     {
         /// <summary>

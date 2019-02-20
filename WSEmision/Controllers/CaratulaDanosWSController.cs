@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Hosting;
 using System.Web.Http;
+
+using WSEmision.Models.Business.Service.CaratulaDanos;
 
 namespace WSEmision.Controllers
 {
@@ -23,6 +24,13 @@ namespace WSEmision.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var rutaPlantilla = HostingEnvironment.MapPath("~/Plantillas/CaratulaDA/CaratulaDA.tex");
+            var pdf = CaratulaDanosService.GenerarCaratula(idPv, rutaPlantilla);
+
+            response.Content = new ByteArrayContent(pdf);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("inline") {
+                FileName = $"CaratulaDanos_{idPv}_{DateTime.Now.ToString("dd-MM-yyyy")}"
+            };
 
             return response;
         }

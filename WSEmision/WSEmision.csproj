@@ -205,6 +205,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Business\Extensions\CollectionExtensions.cs" />
+    <Compile Include="Models\Business\IO\CaratulaDanos\DanosLectorEscritor.cs" />
     <Compile Include="Models\Business\IO\Coaseguro\AnexoLectorEscritor.cs" />
     <Compile Include="Models\Business\IO\Coaseguro\CedulaAnexoLectorEscritor.cs" />
     <Compile Include="Models\Business\IO\Coaseguro\CedulaLectorEscritor.cs" />
@@ -212,8 +213,12 @@
     <Compile Include="Models\Business\IO\IEscritorReporte.cs" />
     <Compile Include="Models\Business\IO\ILectorReporte.cs" />
     <Compile Include="Models\Business\IO\LatexLectorEscritor.cs" />
+    <Compile Include="Models\Business\Service\CaratulaDanos\CaratulaDanosService.cs" />
     <Compile Include="Models\Business\Service\Coaseguro\CoaseguroService.cs" />
-    <Compile Include="Models\DAL\DAO\CoaseguroDao.cs" />
+    <Compile Include="Models\DAL\DAO\CaratulaDanos\CaratulaDanosDao.cs" />
+    <Compile Include="Models\DAL\DAO\Coaseguro\CoaseguroDao.cs" />
+    <Compile Include="Models\DAL\DAO\EmisionDao.cs" />
+    <Compile Include="Models\DAL\DTO\CaratulaDanos\CaratulaDanosResultSet.cs" />
     <Compile Include="Models\DAL\DTO\Coaseguro\AnexoCondicionesParticularesCoaseguro.cs" />
     <Compile Include="Models\DAL\DTO\Coaseguro\CedulaParticipacionCoaseguroResultSet.cs" />
     <Compile Include="Models\DAL\DTO\EncabezadosReportesEmisionResultSet.cs" />
